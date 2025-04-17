@@ -1,0 +1,430 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navigation Styles */
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e2328;
+    padding: 0 20px;
+    height: 60px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-left a:first-child {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 30px;
+}
+
+.main-nav a {
+    color: #c7c7c7;
+    text-decoration: none;
+    padding: 0 15px;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.main-nav a i {
+    margin-right: 5px;
+}
+
+.main-nav a:hover, .main-nav a.active {
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+    
+    .nav-left, .nav-right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .nav-left a:first-child {
+        margin-right: 15px;
+    }
+    
+    .main-nav a {
+        padding: 10px;
+        height: auto;
+    }
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    padding: 30px 0;
+    background-color: #6a4c93;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Stats Section */
+.stats-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 200px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0 10px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #6a4c93;
+}
+
+.stat-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.stat-card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #6a4c93;
+}
+
+/* Form Section */
+.quest-form-section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quest-form-section h2 {
+    margin-bottom: 20px;
+    color: #6a4c93;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.btn-add {
+    background-color: #6a4c93;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add:hover {
+    background-color: #583d7a;
+}
+
+/* Quests Section */
+.quests-section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quests-section h2 {
+    margin-bottom: 20px;
+    color: #6a4c93;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.quest-filters {
+    display: flex;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background-color: #6a4c93;
+    color: white;
+}
+
+.quest-card {
+    background-color: #f9f9f9;
+    border-left: 5px solid #6a4c93;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.quest-card:hover {
+    transform: translateX(5px);
+}
+
+.quest-card.completed {
+    border-left-color: #4caf50;
+    opacity: 0.8;
+}
+
+.quest-info h3 {
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.quest-info p {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.quest-meta {
+    display: flex;
+    margin-top: 10px;
+    font-size: 0.8rem;
+}
+
+.quest-meta span {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.quest-meta i {
+    margin-right: 5px;
+    color: #6a4c93;
+}
+
+.quest-actions button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.btn-complete {
+    color: #4caf50;
+}
+
+.btn-delete {
+    color: #f44336;
+}
+
+.btn-complete:hover,
+.btn-delete:hover {
+    opacity: 0.8;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px 0;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .stats-section {
+        flex-direction: column;
+    }
+    
+    .stat-card {
+        margin: 0 0 20px 0;
+    }
+    
+    .quest-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .quest-actions {
+        margin-top: 15px;
+        align-self: flex-end;
+    }
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #222;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 60px;
+}
+
+.nav-logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo i {
+    margin-right: 10px;
+    color: #8a6cb3;
+}
+
+.nav-links {
+    display: flex;
+}
+
+.nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 0 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+.nav-links a.active {
+    color: #8a6cb3;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+    }
+    
+    .nav-links {
+        margin-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-links a {
+        padding: 8px 12px;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.quest-card {
+    animation: fadeIn 0.5s ease-out;
+}

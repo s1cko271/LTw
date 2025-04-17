@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Quest Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><i class="fas fa-scroll"></i> Daily Quest Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Trang chủ</a>
+                <a href="#">Hướng dẫn</a>
+                <a href="#">Thống kê</a>
+                <a href="#">Công cụ</a>
+                <a href="#">Thông tin</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>Daily Quest Hub</h1>
+            <p>Biến công việc hàng ngày thành nhiệm vụ thú vị!</p>
+        </header>
+
+        <main>
+            <section class="stats-section">
+                <div class="stat-card">
+                    <i class="fas fa-tasks"></i>
+                    <h3>Nhiệm vụ đang chờ</h3>
+                    <p id="pending-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Nhiệm vụ hoàn thành</h3>
+                    <p id="completed-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <h3>Điểm kinh nghiệm</h3>
+                    <p id="xp-count">0</p>
+                </div>
+            </section>
+
+            <section class="quest-form-section">
+                <h2>Thêm nhiệm vụ mới</h2>
+                <form id="quest-form">
+                    <div class="form-group">
+                        <label for="quest-title">Tên nhiệm vụ:</label>
+                        <input type="text" id="quest-title" required placeholder="Nhập tên nhiệm vụ...">
+                    </div>
+                    <div class="form-group">
+                        <label for="quest-description">Mô tả:</label>
+                        <textarea id="quest-description" placeholder="Mô tả chi tiết..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="quest-difficulty">Độ khó:</label>
+                        <select id="quest-difficulty">
+                            <option value="easy">Dễ (10 XP)</option>
+                            <option value="medium">Trung bình (20 XP)</option>
+                            <option value="hard">Khó (30 XP)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quest-deadline">Hạn chót:</label>
+                        <input type="date" id="quest-deadline">
+                    </div>
+                    <button type="submit" class="btn-add">Thêm nhiệm vụ</button>
+                </form>
+            </section>
+
+            <section class="quests-section">
+                <h2>Danh sách nhiệm vụ</h2>
+                <div class="quest-filters">
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="pending">Đang chờ</button>
+                    <button class="filter-btn" data-filter="completed">Hoàn thành</button>
+                </div>
+                <div id="quests-container">
+                    <!-- Quests will be added here dynamically -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025s Daily Quest Hub - Biến công việc thành trò chơi</p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

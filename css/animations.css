@@ -1,0 +1,165 @@
+/* Animations and UI Enhancements for Daily Quest Hub */
+
+/* Quest Card Hover Effect */
+.quest-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.quest-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, #6a4c93, #8a6cb3);
+    transition: width 0.3s ease;
+    z-index: 0;
+}  
+
+.quest-card:hover::before {
+    width: 10px;
+}
+
+.quest-card.completed::before {
+    background: linear-gradient(to bottom, #4caf50, #81c784);
+}
+
+/* XP Gain Animation */
+@keyframes xpGain {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.xp-gained {
+    animation: xpGain 0.6s ease-in-out;
+}
+
+/* Button Hover Effects */
+.btn-add, .filter-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-add::after, .filter-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+.btn-add:focus:not(:active)::after,
+.filter-btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+/* Form Input Focus Effects */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #6a4c93;
+    box-shadow: 0 0 0 2px rgba(106, 76, 147, 0.2);
+}
+
+/* Stats Card Pulse Effect */
+@keyframes statPulse {
+    0% { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+    50% { box-shadow: 0 6px 12px rgba(106, 76, 147, 0.2); }
+    100% { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+}
+
+.stat-card:hover {
+    animation: statPulse 1.5s infinite;
+}
+
+/* Improved Notification */
+.notification {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-left: 4px solid #8a6cb3;
+}
+
+.notification.success {
+    border-left-color: #4caf50;
+}
+
+.notification.error {
+    border-left-color: #f44336;
+}
+
+/* Loading Indicator */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(106, 76, 147, 0.3);
+    border-radius: 50%;
+    border-top-color: #6a4c93;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+/* Navbar Animation Effects */
+.nav-links a {
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #8a6cb3;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+    width: 70%;
+}
+
+.nav-links a.active::after {
+    width: 70%;
+    background: #8a6cb3;
+}
+
+/* Responsive Improvements */
+@media (max-width: 576px) {
+    .quest-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .quest-meta span {
+        margin-bottom: 5px;
+    }
+}

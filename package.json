@@ -1,0 +1,12 @@
+{
+  "name": "daily-quest-hub",
+  "version": "1.0.0",
+  "description": "Ứng dụng Daily Quest Hub",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev"
+  },
+  "dependencies": {
+    "mongodb": "^6.16.0"
+  }
+}

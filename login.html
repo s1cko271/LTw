@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Daily Quest Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h2 {
+            color: #6a4c93;
+            margin-bottom: 10px;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .auth-form button {
+            width: 100%;
+            background-color: #6a4c93;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .auth-form button:hover {
+            background-color: #5a3d83;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .auth-links a {
+            color: #6a4c93;
+            text-decoration: none;
+        }
+        
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><i class="fas fa-scroll"></i> Daily Quest Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="#">Hướng dẫn</a>
+                <a href="#">Thống kê</a>
+                <a href="#">Công cụ</a>
+                <a href="#">Thông tin</a>
+                <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
+                <a href="register.html" id="register-link">Đăng ký</a>
+                <a href="login.html" id="login-link" class="active">Đăng nhập</a>
+                <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>Đăng nhập</h2>
+                <p>Đăng nhập để quản lý nhiệm vụ của bạn</p>
+            </div>
+            
+            <form class="auth-form" id="login-form">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required placeholder="Nhập email của bạn">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Mật khẩu:</label>
+                    <input type="password" id="password" required placeholder="Nhập mật khẩu">
+                </div>
+                
+                <button type="submit">Đăng nhập</button>
+                
+                <div class="auth-links">
+                    <p>Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Daily Quest Hub</p>
+    </footer>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ người dùng - Daily Quest Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 900px;
+            margin: 30px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .profile-sidebar {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-content {
+            flex: 2;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #6a4c93;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 20px;
+        }
+        
+        .profile-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-info h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .profile-info p {
+            color: #777;
+            margin-bottom: 15px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6a4c93;
+        }
+        
+        .stat-item .label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .profile-actions button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #6a4c93;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .profile-actions button:hover {
+            background-color: #5a3d83;
+        }
+        
+        .profile-actions button.logout {
+            background-color: #f44336;
+        }
+        
+        .profile-actions button.logout:hover {
+            background-color: #d32f2f;
+        }
+        
+        .profile-tab-nav {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .profile-tab-nav button {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #777;
+            position: relative;
+        }
+        
+        .profile-tab-nav button.active {
+            color: #6a4c93;
+            font-weight: bold;
+        }
+        
+        .profile-tab-nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #6a4c93;
+        }
+        
+        .profile-tab-content {
+            display: none;
+        }
+        
+        .profile-tab-content.active {
+            display: block;
+        }
+        
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+        }
+        
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #6a4c93;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .achievement-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .achievement-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .recent-quest-item {
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+        }
+        
+        .recent-quest-item h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .recent-quest-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar .progress {
+            height: 100%;
+            background-color: #6a4c93;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><i class="fas fa-scroll"></i> Daily Quest Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="#">Hướng dẫn</a>
+                <a href="#">Thống kê</a>
+                <a href="#">Công cụ</a>
+                <a href="#">Thông tin</a>
+                <a href="profile.html" id="profile-link" class="active">Hồ sơ</a>
+                <a href="login.html" id="login-link" style="display: none;">Đăng nhập</a>
+                <a href="register.html" id="register-link" style="display: none;">Đăng ký</a>
+                <a href="#" id="logout-link">Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                
+                <div class="profile-info">
+                    <h2 id="profile-name">Tên người dùng</h2>
+                    <p id="profile-email">email@example.com</p>
+                    <p><span class="badge">Cấp độ <span id="profile-level">1</span></span></p>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="value" id="profile-quests">0</div>
+                        <div class="label">Nhiệm vụ</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value" id="profile-xp">0</div>
+                        <div class="label">XP</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value" id="profile-streak">0</div>
+                        <div class="label">Chuỗi ngày</div>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button id="edit-profile-btn"><i class="fas fa-edit"></i> Chỉnh sửa hồ sơ</button>
+                    <button class="logout" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+                </div>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-tab-nav">
+                    <button class="tab-btn active" data-tab="overview">Tổng quan</button>
+                    <button class="tab-btn" data-tab="achievements">Thành tích</button>
+                    <button class="tab-btn" data-tab="history">Lịch sử</button>
+                    <button class="tab-btn" data-tab="settings">Cài đặt</button>
+                </div>
+                
+                <div class="profile-tab-content active" id="overview-tab">
+                    <h3>Tiến độ cấp độ</h3>
+                    <p>XP hiện tại: <span id="current-xp">0</span>/<span id="next-level-xp">100</span></p>
+                    <div class="progress-bar">
+                        <div class="progress" id="xp-progress" style="width: 0%"></div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px">Nhiệm vụ gần đây</h3>
+                    <div id="recent-quests">
+                        <!-- Recent quests will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="profile-tab-content" id="achievements-tab">
+                    <h3>Thành tích đã đạt được</h3>
+                    <div id="achievements-list">
+                        <!-- Achievements will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="profile-tab-content" id="history-tab">
+                    <h3>Lịch sử hoạt động</h3>
+                    <div id="activity-history">
+                        <!-- Activity history will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="profile-tab-content" id="settings-tab">
+                    <h3>Cài đặt tài khoản</h3>
+                    <form id="settings-form">
+                        <div class="form-group">
+                            <label for="settings-username">Tên người dùng:</label>
+                            <input type="text" id="settings-username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settings-email">Email:</label>
+                            <input type="email" id="settings-email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settings-password">Mật khẩu mới (để trống nếu không thay đổi):</label>
+                            <input type="password" id="settings-password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settings-confirm-password">Xác nhận mật khẩu mới:</label>
+                            <input type="password" id="settings-confirm-password">
+                        </div>
+                        
+                        <button type="submit" class="btn-add">Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Daily Quest Hub</p>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200">
+  <rect width="800" height="200" fill="#f8f9fa" rx="10" ry="10"/>
+  
+  <!-- Thanh lọc -->
+  <rect x="50" y="30" width="700" height="40" fill="white" stroke="#eee" stroke-width="1" rx="5" ry="5"/>
+  
+  <!-- Nút lọc -->
+  <rect x="70" y="40" width="80" height="20" fill="#6a4c93" rx="10" ry="10"/>
+  <text x="90" y="55" font-family="Arial" font-size="12" fill="white">Tất cả</text>
+  
+  <rect x="160" y="40" width="100" height="20" fill="white" stroke="#6a4c93" stroke-width="1" rx="10" ry="10"/>
+  <text x="180" y="55" font-family="Arial" font-size="12" fill="#6a4c93">Đang chờ</text>
+  
+  <rect x="270" y="40" width="100" height="20" fill="white" stroke="#6a4c93" stroke-width="1" rx="10" ry="10"/>
+  <text x="285" y="55" font-family="Arial" font-size="12" fill="#6a4c93">Hoàn thành</text>
+  
+  <!-- Danh sách nhiệm vụ -->
+  <rect x="50" y="80" width="700" height="50" fill="white" stroke="#eee" stroke-width="1" rx="5" ry="5"/>
+  <text x="70" y="110" font-family="Arial" font-size="14" fill="#333">Hoàn thành báo cáo dự án</text>
+  <text x="600" y="110" font-family="Arial" font-size="12" fill="#777">Hạn chót: 15/06/2025</text>
+  
+  <rect x="50" y="140" width="700" height="50" fill="#f9f9f9" stroke="#eee" stroke-width="1" rx="5" ry="5"/>
+  <text x="70" y="170" font-family="Arial" font-size="14" fill="#999" text-decoration="line-through">Chuẩn bị tài liệu cuộc họp</text>
+  <text x="600" y="170" font-family="Arial" font-size="12" fill="#999">Đã hoàn thành</text>
+</svg>

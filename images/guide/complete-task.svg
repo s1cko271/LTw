@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" viewBox="0 0 600 200">
+  <rect width="600" height="200" fill="#f8f9fa" rx="10" ry="10"/>
+  
+  <!-- Nhiệm vụ 1 -->
+  <rect x="50" y="30" width="500" height="60" fill="white" stroke="#eee" stroke-width="1" rx="5" ry="5"/>
+  <text x="70" y="55" font-family="Arial" font-size="16" fill="#333">Hoàn thành báo cáo dự án</text>
+  <text x="70" y="75" font-family="Arial" font-size="12" fill="#777">Hạn chót: 15/06/2025</text>
+  
+  <!-- Nút hoàn thành -->
+  <circle cx="520" cy="60" r="15" fill="#f0f0f0" stroke="#ddd" stroke-width="1"/>
+  <path d="M515,60 L520,65 L530,55" stroke="#aaa" stroke-width="2" fill="none"/>
+  
+  <!-- Nhiệm vụ 2 (đã hoàn thành) -->
+  <rect x="50" y="110" width="500" height="60" fill="#f9f9f9" stroke="#eee" stroke-width="1" rx="5" ry="5"/>
+  <text x="70" y="135" font-family="Arial" font-size="16" fill="#999" text-decoration="line-through">Chuẩn bị tài liệu cuộc họp</text>
+  <text x="70" y="155" font-family="Arial" font-size="12" fill="#999">Đã hoàn thành</text>
+  
+  <!-- Nút đã hoàn thành -->
+  <circle cx="520" cy="140" r="15" fill="#6a4c93" stroke="#6a4c93" stroke-width="1"/>
+  <path d="M515,140 L520,145 L530,135" stroke="white" stroke-width="2" fill="none"/>
+  
+  <!-- Thông báo XP -->
+  <rect x="200" y="80" width="200" height="40" fill="#e9f5e9" stroke="#c3e6cb" stroke-width="1" rx="5" ry="5"/>
+  <text x="230" y="105" font-family="Arial" font-size="14" fill="#155724">+20 XP đã nhận được!</text>
+</svg>

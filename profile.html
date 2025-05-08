@@ -227,10 +227,10 @@
             </div>
             <div class="nav-links">
                 <a href="index.html">Trang chủ</a>
-                <a href="#">Hướng dẫn</a>
-                <a href="#">Thống kê</a>
-                <a href="#">Công cụ</a>
-                <a href="#">Thông tin</a>
+                <a href="guide.html">Hướng dẫn</a>
+                <a href="stats.html">Thống kê</a>
+                <a href="tools.html">Công cụ</a>
+                <a href="info.html">Thông tin</a>
                 <a href="profile.html" id="profile-link" class="active">Hồ sơ</a>
                 <a href="login.html" id="login-link" style="display: none;">Đăng nhập</a>
                 <a href="register.html" id="register-link" style="display: none;">Đăng ký</a>
@@ -310,15 +310,31 @@
                 
                 <div class="profile-tab-content" id="settings-tab">
                     <h3>Cài đặt tài khoản</h3>
+                    <div id="settings-error" class="alert alert-error" style="display: none; background-color: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin-bottom: 15px;"></div>
+                    <div id="settings-success" class="alert alert-success" style="display: none; background-color: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 5px; margin-bottom: 15px;"></div>
                     <form id="settings-form">
                         <div class="form-group">
+                            <label>Ảnh đại diện:</label>
+                            <div style="margin-bottom: 15px;">
+                                <img id="avatar-preview" src="" alt="Ảnh đại diện" style="display: none; max-width: 100px; max-height: 100px; border-radius: 50%; margin-bottom: 10px;">
+                                <input type="file" id="avatar-upload" accept="image/*">
+                                <p style="font-size: 0.85rem; color: #777; margin-top: 5px;">Chọn ảnh có kích thước dưới 2MB. Định dạng hỗ trợ: JPG, PNG, GIF.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="settings-username">Tên người dùng:</label>
-                            <input type="text" id="settings-username">
+                            <input type="text" id="settings-username" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="settings-email">Email:</label>
-                            <input type="email" id="settings-email">
+                            <input type="email" id="settings-email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settings-bio">Tiểu sử:</label>
+                            <textarea id="settings-bio" rows="3" placeholder="Giới thiệu ngắn về bạn..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
                         </div>
                         
                         <div class="form-group">

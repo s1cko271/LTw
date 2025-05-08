@@ -1,8 +1,7 @@
 // Quản lý xác thực người dùng cho Daily Quest Hub
 
-// Khởi tạo dữ liệu người dùng từ localStorage hoặc tạo mảng rỗng nếu chưa có
-let users = JSON.parse(localStorage.getItem('daily-quest-users')) || [];
-let currentUser = JSON.parse(localStorage.getItem('daily-quest-current-user')) || null;
+// Khởi tạo biến người dùng hiện tại
+let currentUser = null;
 
 // Tạo đối tượng authManager để quản lý xác thực và thông tin người dùng
 window.authManager = {
@@ -11,33 +10,41 @@ window.authManager = {
         return currentUser;
     },
     
+    // Khởi tạo thông tin người dùng từ token
+    initUser: async function() {
+        const token = apiManager.getToken();
+        if (token) {
+            try {
+                currentUser = await apiManager.user.getProfile();
+                return currentUser;
+            } catch (error) {
+                console.error('Lỗi khi lấy thông tin người dùng:', error);
+                apiManager.removeToken();
+                return null;
+            }
+        }
+        return null;
+    },
+    
     // Cập nhật thông tin người dùng
-    updateUserInfo: function(updatedInfo) {
+    updateUserInfo: async function(updatedInfo) {
         if (!currentUser) return false;
         
-        // Cập nhật thông tin người dùng
-        Object.assign(currentUser, updatedInfo);
-        
-        // Cập nhật trong mảng users
-        const userIndex = users.findIndex(user => user.id === currentUser.id);
-        if (userIndex !== -1) {
-            users[userIndex] = currentUser;
-            
-            // Lưu vào localStorage
-            localStorage.setItem('daily-quest-users', JSON.stringify(users));
-            localStorage.setItem('daily-quest-current-user', JSON.stringify(currentUser));
-            
+        try {
+            // Gọi API cập nhật thông tin người dùng
+            currentUser = await apiManager.user.updateProfile(updatedInfo);
             return true;
+        } catch (error) {
+            console.error('Lỗi khi cập nhật thông tin người dùng:', error);
+            return false;
         }
-        
-        return false;
     },
     
     // Xử lý đăng xuất
     handleLogout: function() {
-        // Xóa thông tin người dùng hiện tại
+        // Xóa thông tin người dùng hiện tại và token
         currentUser = null;
-        localStorage.removeItem('daily-quest-current-user');
+        apiManager.user.logout();
         
         // Cập nhật UI
         updateNavigation();
@@ -47,29 +54,34 @@ window.authManager = {
     },
     
     // Thêm XP cho người dùng hiện tại
-    addUserXP: function(xpAmount) {
+    addUserXP: async function(xpAmount) {
         if (!currentUser) return;
         
-        currentUser.xp += xpAmount;
-        
-        // Kiểm tra lên cấp
-        checkLevelUp();
-        
-        // Cập nhật trong mảng users
-        const userIndex = users.findIndex(user => user.id === currentUser.id);
-        if (userIndex !== -1) {
-            users[userIndex] = currentUser;
+        try {
+            // Gọi API thêm XP cho người dùng
+            const result = await apiManager.user.addXP(xpAmount);
+            currentUser = result.user;
             
-            // Lưu vào localStorage
-            localStorage.setItem('daily-quest-users', JSON.stringify(users));
-            localStorage.setItem('daily-quest-current-user', JSON.stringify(currentUser));
+            // Kiểm tra lên cấp
+            checkLevelUp();
+            
+            return currentUser;
+        } catch (error) {
+            console.error('Lỗi khi thêm XP cho người dùng:', error);
         }
     }
 };
 
 // Kiểm tra trạng thái đăng nhập khi trang web được tải
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Khởi tạo thông tin người dùng từ token
+    await authManager.initUser();
+    
+    // Cập nhật UI dựa trên trạng thái đăng nhập
     updateNavigation();
+    
+    // Kiểm tra và chuyển hướng người dùng dựa trên trạng thái đăng nhập
+    checkAuthAndRedirect();
     
     // Xử lý form đăng ký nếu đang ở trang đăng ký
     const registerForm = document.getElementById('register-form');
@@ -86,14 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Xử lý nút đăng xuất
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
+        logoutBtn.addEventListener('click', authManager.handleLogout);
     }
     
     const logoutLink = document.getElementById('logout-link');
     if (logoutLink) {
         logoutLink.addEventListener('click', function(e) {
             e.preventDefault();
-            handleLogout();
+            authManager.handleLogout();
         });
     }
     
@@ -126,7 +138,7 @@ function updateNavigation() {
 }
 
 // Xử lý đăng ký người dùng mới
-function handleRegister(e) {
+async function handleRegister(e) {
     e.preventDefault();
     
     const username = document.getElementById('username').value.trim();
@@ -140,60 +152,83 @@ function handleRegister(e) {
         return;
     }
     
-    // Kiểm tra email đã tồn tại chưa
-    if (users.some(user => user.email === email)) {
-        alert('Email này đã được sử dụng!');
-        return;
+    try {
+        // Gọi API đăng ký
+        const userData = {
+            username,
+            email,
+            password,
+            confirmPassword
+        };
+        
+        // Sử dụng API để đăng ký
+        currentUser = await apiManager.user.register(userData);
+        
+        // Hiển thị thông báo thành công
+        alert('Đăng ký thành công!');
+        
+        // Cập nhật UI
+        updateNavigation();
+        
+        // Chuyển hướng đến trang chủ
+        window.location.href = 'index.html';
+    } catch (error) {
+        // Hiển thị thông báo lỗi
+        alert(error.message || 'Đăng ký thất bại!');
+        console.error(error);
     }
-    
-    // Tạo người dùng mới
-    const newUser = {
-        id: Date.now().toString(),
-        username: username,
-        email: email,
-        password: password, // Trong ứng dụng thực tế, cần mã hóa mật khẩu
-        createdAt: new Date().toISOString(),
-        xp: 0,
-        level: 1,
-        streak: 0,
-        quests: [],
-        achievements: []
-    };
-    
-    // Thêm người dùng vào mảng và lưu vào localStorage
-    users.push(newUser);
-    localStorage.setItem('daily-quest-users', JSON.stringify(users));
-    
-    // Đăng nhập người dùng mới
-    currentUser = newUser;
-    localStorage.setItem('daily-quest-current-user', JSON.stringify(currentUser));
-    
-    // Chuyển hướng đến trang chủ
-    window.location.href = 'index.html';
 }
 
 // Xử lý đăng nhập
-function handleLogin(e) {
+async function handleLogin(e) {
     e.preventDefault();
     
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     
-    // Tìm người dùng với email đã nhập
-    const user = users.find(user => user.email === email);
+    try {
+        // Sử dụng API để đăng nhập
+        currentUser = await apiManager.user.login(email, password);
+        
+        // Hiển thị thông báo thành công
+        alert('Đăng nhập thành công!');
+        
+        // Cập nhật UI
+        updateNavigation();
+        
+        // Chuyển hướng đến trang chủ
+        window.location.href = 'index.html';
+    } catch (error) {
+        // Hiển thị thông báo lỗi
+        alert(error.message || 'Email hoặc mật khẩu không đúng!');
+        console.error(error);
+    }
+}
+
+// Kiểm tra trạng thái đăng nhập và chuyển hướng người dùng phù hợp
+function checkAuthAndRedirect() {
+    // Lấy đường dẫn hiện tại
+    const currentPath = window.location.pathname;
     
-    // Kiểm tra người dùng và mật khẩu
-    if (!user || user.password !== password) {
-        alert('Email hoặc mật khẩu không đúng!');
+    // Các trang không yêu cầu đăng nhập
+    const publicPages = ['login.html', 'register.html', 'landing.html'];
+    
+    // Kiểm tra xem đường dẫn hiện tại có phải là trang công khai không
+    const isPublicPage = publicPages.some(page => currentPath.includes(page));
+    
+    // Nếu người dùng chưa đăng nhập và đang ở trang index.html hoặc các trang yêu cầu đăng nhập
+    if (!currentUser && !isPublicPage) {
+        // Chuyển hướng đến trang landing
+        window.location.href = 'landing.html';
         return;
     }
     
-    // Đăng nhập thành công
-    currentUser = user;
-    localStorage.setItem('daily-quest-current-user', JSON.stringify(currentUser));
-    
-    // Chuyển hướng đến trang chủ
-    window.location.href = 'index.html';
+    // Nếu người dùng đã đăng nhập và đang ở trang landing, login hoặc register
+    if (currentUser && isPublicPage) {
+        // Chuyển hướng đến trang chủ
+        window.location.href = 'index.html';
+        return;
+    }
 }
 
 // Xử lý đăng xuất

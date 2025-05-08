@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin - Daily Quest Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .info-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 30px;
+        }
+        
+        .info-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .info-section h2 {
+            color: #6a4c93;
+            margin-bottom: 20px;
+        }
+        
+        .info-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .team-member {
+            flex: 1;
+            min-width: 200px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #6a4c93;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 15px;
+        }
+        
+        .member-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .member-role {
+            color: #777;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .contact-info {
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-item i {
+            width: 30px;
+            color: #6a4c93;
+            font-size: 1.2rem;
+        }
+        
+        .contact-item a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-item a:hover {
+            color: #6a4c93;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .faq-answer {
+            color: #555;
+        }
+        
+        .version-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .version-info p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .team-members {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><i class="fas fa-scroll"></i> Daily Quest Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="guide.html">Hướng dẫn</a>
+                <a href="stats.html">Thống kê</a>
+                <a href="tools.html">Công cụ</a>
+                <a href="info.html" class="active">Thông tin</a>
+                <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
+                <a href="login.html" id="login-link">Đăng nhập</a>
+                <a href="register.html" id="register-link">Đăng ký</a>
+                <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>Thông tin</h1>
+            <p>Tìm hiểu thêm về Daily Quest Hub</p>
+        </header>
+
+        <div class="info-container">
+            <div class="info-section">
+                <h2><i class="fas fa-info-circle"></i> Giới thiệu</h2>
+                <p>Daily Quest Hub là ứng dụng quản lý công việc và nhiệm vụ cá nhân được phát triển với mục tiêu giúp người dùng tăng năng suất và động lực làm việc thông qua việc biến các công việc hàng ngày thành những nhiệm vụ thú vị.</p>
+                
+                <p>Ứng dụng được xây dựng dựa trên ý tưởng gamification (trò chơi hóa), áp dụng các yếu tố của trò chơi như điểm kinh nghiệm, cấp độ và thành tích vào quá trình quản lý công việc, giúp người dùng cảm thấy hứng thú và có động lực hơn khi hoàn thành các nhiệm vụ.</p>
+                
+                <p>Chúng tôi tin rằng việc kết hợp giữa công việc và niềm vui sẽ giúp bạn duy trì động lực, tăng năng suất và đạt được các mục tiêu cá nhân một cách hiệu quả hơn.</p>
+                
+                <div class="version-info">
+                    <p><strong>Phiên bản:</strong> 1.0.0</p>
+                    <p><strong>Ngày phát hành:</strong> 01/06/2025</p>
+                    <p><strong>Cập nhật gần nhất:</strong> 15/06/2025</p>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h2><i class="fas fa-question-circle"></i> Câu hỏi thường gặp</h2>
+                
+                <div class="faq-item">
+                    <p class="faq-question">Daily Quest Hub có miễn phí không?</p>
+                    <p class="faq-answer">Có, Daily Quest Hub hiện đang cung cấp miễn phí các tính năng cơ bản. Trong tương lai, chúng tôi có thể giới thiệu phiên bản Premium với các tính năng nâng cao.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <p class="faq-question">Dữ liệu của tôi có được bảo mật không?</p>
+                    <p class="faq-answer">Chúng tôi coi trọng quyền riêng tư và bảo mật dữ liệu của người dùng. Tất cả dữ liệu được mã hóa và lưu trữ an toàn trên máy chủ của chúng tôi. Chúng tôi không chia sẻ thông tin cá nhân của bạn với bất kỳ bên thứ ba nào.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <p class="faq-question">Làm thế nào để đạt được cấp độ cao hơn?</p>
+                    <p class="faq-answer">Để đạt được cấp độ cao hơn, bạn cần tích lũy điểm kinh nghiệm (XP) bằng cách hoàn thành các nhiệm vụ. Nhiệm vụ khó sẽ mang lại nhiều XP hơn. Ngoài ra, việc duy trì chuỗi ngày liên tiếp hoàn thành nhiệm vụ và đạt được các thành tích cũng sẽ giúp bạn nhận thêm XP.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <p class="faq-question">Tôi có thể sử dụng Daily Quest Hub trên thiết bị di động không?</p>
+                    <p class="faq-answer">Hiện tại, Daily Quest Hub là một ứng dụng web có thiết kế responsive, có thể sử dụng trên các thiết bị di động thông qua trình duyệt web. Chúng tôi đang phát triển ứng dụng di động native cho iOS và Android, dự kiến sẽ ra mắt trong tương lai gần.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <p class="faq-question">Làm thế nào để báo cáo lỗi hoặc đề xuất tính năng mới?</p>
+                    <p class="faq-answer">Bạn có thể báo cáo lỗi hoặc đề xuất tính năng mới bằng cách gửi email đến support@dailyquesthub.com hoặc sử dụng mẫu liên hệ trong phần Liên hệ của trang web.</p>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h2><i class="fas fa-envelope"></i> Liên hệ</h2>
+                <p>Nếu bạn có câu hỏi, góp ý hoặc cần hỗ trợ, vui lòng liên hệ với chúng tôi qua các kênh sau:</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:support@dailyquesthub.com">support@dailyquesthub.com</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-globe"></i>
+                        <a href="https://www.dailyquesthub.com" target="_blank">www.dailyquesthub.com</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fab fa-facebook"></i>
+                        <a href="https://www.facebook.com/dailyquesthub" target="_blank">facebook.com/dailyquesthub</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fab fa-twitter"></i>
+                        <a href="https://twitter.com/dailyquesthub" target="_blank">twitter.com/dailyquesthub</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Đường ABC, Quận XYZ, Thành phố HCM, Việt Nam</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Daily Quest Hub </p>
+        </footer>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra trạng thái đăng nhập và cập nhật UI
+            const currentUser = window.authManager.getCurrentUser();
+            const profileLink = document.getElementById('profile-link');
+            const loginLink = document.getElementById('login-link');
+            const registerLink = document.getElementById('register-link');
+            const logoutLink = document.getElementById('logout-link');
+            
+            if (currentUser) {
+                // Người dùng đã đăng nhập
+                profileLink.style.display = 'inline-block';
+                logoutLink.style.display = 'inline-block';
+                loginLink.style.display = 'none';
+                registerLink.style.display = 'none';
+            } else {
+                // Người dùng chưa đăng nhập
+                profileLink.style.display = 'none';
+                logoutLink.style.display = 'none';
+                loginLink.style.display = 'inline-block';
+                registerLink.style.display = 'inline-block';
+            }
+            
+            // Xử lý sự kiện đăng xuất
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.authManager.handleLogout();
+            });
+        });
+    </script>
+</body>
+</html>

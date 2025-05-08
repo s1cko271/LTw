@@ -25,7 +25,7 @@
         .stats-section h2 {
             color: #6a4c93;
             margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 1px solid #eee;
             padding-bottom: 10px;
         }
         
@@ -39,8 +39,8 @@
         .stat-card {
             flex: 1;
             min-width: 200px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
             padding: 20px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -70,8 +70,9 @@
         }
         
         .chart-container {
-            margin: 20px 0;
+            position: relative;
             height: 300px;
+            margin-bottom: 30px;
         }
         
         .stats-table {
@@ -87,50 +88,26 @@
         }
         
         .stats-table th {
-            background-color: #f5f5f5;
-            font-weight: 600;
+            background-color: #f8f9fa;
+            font-weight: bold;
             color: #555;
         }
         
         .stats-table tr:hover {
-            background-color: #f9f9f9;
+            background-color: #f8f9fa;
         }
         
-        .achievement {
-            display: flex;
-            align-items: center;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            padding: 15px;
+        .no-data {
+            text-align: center;
+            padding: 40px 0;
+            color: #777;
+        }
+        
+        .no-data i {
+            font-size: 3rem;
+            color: #ddd;
             margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .achievement-icon {
-            width: 50px;
-            height: 50px;
-            background-color: #6a4c93;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .achievement-info h3 {
-            margin: 0 0 5px 0;
-            color: #333;
-        }
-        
-        .achievement-info p {
-            margin: 0;
-            color: #666;
-        }
-        
-        .locked {
-            opacity: 0.5;
+            display: block;
         }
         
         @media (max-width: 768px) {
@@ -155,7 +132,7 @@
                 <a href="guide.html">Hướng dẫn</a>
                 <a href="stats.html" class="active">Thống kê</a>
                 <a href="tools.html">Công cụ</a>
-                <a href="about.html">Thông tin</a>
+                <a href="info.html">Thông tin</a>
                 <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
                 <a href="login.html" id="login-link">Đăng nhập</a>
                 <a href="register.html" id="register-link">Đăng ký</a>
@@ -170,110 +147,73 @@
             <p>Theo dõi tiến độ và phân tích hiệu suất của bạn</p>
         </header>
 
-        <div class="stats-container">
-            <div class="stats-section">
-                <h2><i class="fas fa-chart-pie"></i> Tổng quan</h2>
-                
-                <div class="stats-cards">
-                    <div class="stat-card">
-                        <i class="fas fa-tasks"></i>
-                        <h3>Tổng số nhiệm vụ</h3>
-                        <p id="total-quests">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Đã hoàn thành</h3>
-                        <p id="completed-quests">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-percentage"></i>
-                        <h3>Tỷ lệ hoàn thành</h3>
-                        <p id="completion-rate">0%</p>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-star"></i>
-                        <h3>Tổng XP</h3>
-                        <p id="total-xp">0</p>
-                    </div>
+        <div class="stats-container" id="stats-content">
+            <div class="login-required" id="login-required" style="display: none;">
+                <div class="no-data">
+                    <i class="fas fa-lock"></i>
+                    <h3>Vui lòng đăng nhập</h3>
+                    <p>Bạn cần đăng nhập để xem thống kê cá nhân.</p>
+                    <a href="login.html" class="btn-primary">Đăng nhập ngay</a>
                 </div>
             </div>
             
-            <div class="stats-section">
-                <h2><i class="fas fa-chart-line"></i> Biểu đồ hoạt động</h2>
-                
-                <div class="chart-container">
-                    <canvas id="activity-chart"></canvas>
-                </div>
-                
-                <div class="chart-container">
-                    <canvas id="quest-types-chart"></canvas>
-                </div>
-            </div>
-            
-            <div class="stats-section">
-                <h2><i class="fas fa-trophy"></i> Thành tích</h2>
-                
-                <div class="achievements-container">
-                    <div class="achievement">
-                        <div class="achievement-icon">
-                            <i class="fas fa-award"></i>
+            <div id="stats-data" style="display: none;">
+                <div class="stats-section">
+                    <h2><i class="fas fa-chart-pie"></i> Tổng quan</h2>
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <i class="fas fa-tasks"></i>
+                            <h3>Tổng số nhiệm vụ</h3>
+                            <p id="total-quests">0</p>
                         </div>
-                        <div class="achievement-info">
-                            <h3>Người mới bắt đầu</h3>
-                            <p>Hoàn thành 5 nhiệm vụ đầu tiên</p>
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <h3>Nhiệm vụ hoàn thành</h3>
+                            <p id="completed-quests">0</p>
                         </div>
-                    </div>
-                    
-                    <div class="achievement locked">
-                        <div class="achievement-icon">
-                            <i class="fas fa-fire"></i>
+                        <div class="stat-card">
+                            <i class="fas fa-percentage"></i>
+                            <h3>Tỷ lệ hoàn thành</h3>
+                            <p id="completion-rate">0%</p>
                         </div>
-                        <div class="achievement-info">
-                            <h3>Chăm chỉ</h3>
-                            <p>Hoàn thành 3 nhiệm vụ trong một ngày</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement locked">
-                        <div class="achievement-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="achievement-info">
-                            <h3>Nhất quán</h3>
-                            <p>Hoàn thành ít nhất một nhiệm vụ mỗi ngày trong 7 ngày liên tiếp</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement locked">
-                        <div class="achievement-icon">
-                            <i class="fas fa-mountain"></i>
-                        </div>
-                        <div class="achievement-info">
-                            <h3>Chinh phục thử thách</h3>
-                            <p>Hoàn thành 10 nhiệm vụ khó</p>
+                        <div class="stat-card">
+                            <i class="fas fa-trophy"></i>
+                            <h3>Thành tích đạt được</h3>
+                            <p id="achievements-count">0</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="stats-section">
-                <h2><i class="fas fa-history"></i> Lịch sử hoạt động gần đây</h2>
                 
-                <table class="stats-table">
-                    <thead>
-                        <tr>
-                            <th>Ngày</th>
-                            <th>Nhiệm vụ</th>
-                            <th>Độ khó</th>
-                            <th>XP</th>
-                        </tr>
-                    </thead>
-                    <tbody id="activity-history">
-                        <tr>
-                            <td colspan="4" style="text-align: center;">Chưa có dữ liệu hoạt động</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="stats-section">
+                    <h2><i class="fas fa-chart-line"></i> Tiến độ theo thời gian</h2>
+                    <div class="chart-container">
+                        <canvas id="progress-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <h2><i class="fas fa-chart-bar"></i> Phân loại nhiệm vụ</h2>
+                    <div class="chart-container">
+                        <canvas id="categories-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <h2><i class="fas fa-history"></i> Lịch sử hoạt động gần đây</h2>
+                    <table class="stats-table" id="activity-table">
+                        <thead>
+                            <tr>
+                                <th>Ngày</th>
+                                <th>Hoạt động</th>
+                                <th>Chi tiết</th>
+                                <th>XP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -282,93 +222,8 @@
         </footer>
     </div>
 
-    <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/tools.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Lấy dữ liệu từ localStorage
-            const quests = JSON.parse(localStorage.getItem('daily-quests')) || [];
-            const xpPoints = parseInt(localStorage.getItem('xp-points')) || 0;
-            
-            // Cập nhật thống kê tổng quan
-            const totalQuests = quests.length;
-            const completedQuests = quests.filter(quest => quest.completed).length;
-            const completionRate = totalQuests > 0 ? Math.round((completedQuests / totalQuests) * 100) : 0;
-            
-            document.getElementById('total-quests').textContent = totalQuests;
-            document.getElementById('completed-quests').textContent = completedQuests;
-            document.getElementById('completion-rate').textContent = completionRate + '%';
-            document.getElementById('total-xp').textContent = xpPoints;
-            
-            // Tạo dữ liệu mẫu cho biểu đồ hoạt động
-            const ctx = document.getElementById('activity-chart').getContext('2d');
-            const activityChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-                    datasets: [{
-                        label: 'Nhiệm vụ hoàn thành',
-                        data: [3, 1, 4, 2, 5, 2, 0],
-                        backgroundColor: 'rgba(106, 76, 147, 0.2)',
-                        borderColor: 'rgba(106, 76, 147, 1)',
-                        borderWidth: 2,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Biểu đồ phân loại nhiệm vụ
-            const questTypes = document.getElementById('quest-types-chart').getContext('2d');
-            const questTypesChart = new Chart(questTypes, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Dễ', 'Trung bình', 'Khó'],
-                    datasets: [{
-                        data: [5, 3, 2],
-                        backgroundColor: [
-                            'rgba(76, 175, 80, 0.7)',
-                            'rgba(255, 193, 7, 0.7)',
-                            'rgba(244, 67, 54, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(76, 175, 80, 1)',
-                            'rgba(255, 193, 7, 1)',
-                            'rgba(244, 67, 54, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Phân loại nhiệm vụ theo độ khó',
-                            font: {
-                                size: 16
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script>
+    <script src="js/api.js"></script>
+    <script src="js/stats.js"></script>
 </body>
 </html>

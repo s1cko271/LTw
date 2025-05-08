@@ -1,6 +1,29 @@
 // Khởi tạo dữ liệu
-let quests = JSON.parse(localStorage.getItem('daily-quests')) || [];
-let xpPoints = parseInt(localStorage.getItem('xp-points')) || 0;
+let quests = [];
+let xpPoints = 0;
+
+// Hàm tải dữ liệu từ API
+async function loadData() {
+    try {
+        // Kiểm tra đăng nhập
+        const user = await authManager.initUser();
+        if (!user) return;
+        
+        // Tải danh sách nhiệm vụ
+        quests = await apiManager.quest.getAll();
+        
+        // Cập nhật XP từ thông tin người dùng
+        xpPoints = user.xp || 0;
+        
+        // Hiển thị danh sách nhiệm vụ
+        renderQuests();
+        
+        // Cập nhật thống kê
+        updateStats();
+    } catch (error) {
+        console.error('Lỗi khi tải dữ liệu:', error);
+    }
+}
 
 // Các phần tử DOM
 const questForm = document.getElementById('quest-form');
@@ -15,13 +38,9 @@ function updateStats() {
     const pendingQuests = quests.filter(quest => !quest.completed);
     const completedQuests = quests.filter(quest => quest.completed);
     
-    pendingCountEl.textContent = pendingQuests.length;
-    completedCountEl.textContent = completedQuests.length;
-    xpCountEl.textContent = xpPoints;
-    
-    // Lưu dữ liệu vào localStorage
-    localStorage.setItem('daily-quests', JSON.stringify(quests));
-    localStorage.setItem('xp-points', xpPoints);
+    if (pendingCountEl) pendingCountEl.textContent = pendingQuests.length;
+    if (completedCountEl) completedCountEl.textContent = completedQuests.length;
+    if (xpCountEl) xpCountEl.textContent = xpPoints;
 }
 
 // Tạo thẻ nhiệm vụ
@@ -31,7 +50,7 @@ function createQuestElement(quest) {
     if (quest.completed) {
         questEl.classList.add('completed');
     }
-    questEl.dataset.id = quest.id;
+    questEl.dataset.id = quest._id || quest.id; // Sử dụng _id từ MongoDB hoặc id nếu có
     
     // Xác định XP dựa trên độ khó
     let xpValue = 10;
@@ -136,7 +155,7 @@ function renderQuests(filter = 'all') {
 }
 
 // Thêm nhiệm vụ mới
-function addQuest(e) {
+async function addQuest(e) {
     e.preventDefault();
     
     const titleInput = document.getElementById('quest-title');
@@ -144,61 +163,88 @@ function addQuest(e) {
     const difficultyInput = document.getElementById('quest-difficulty');
     const deadlineInput = document.getElementById('quest-deadline');
     
-    const newQuest = {
-        id: Date.now().toString(),
+    const questData = {
         title: titleInput.value.trim(),
         description: descriptionInput.value.trim(),
         difficulty: difficultyInput.value,
-        deadline: deadlineInput.value || null,
-        completed: false,
-        createdAt: new Date().toISOString()
+        deadline: deadlineInput.value || null
     };
     
-    quests.push(newQuest);
-    
-    // Reset form
-    questForm.reset();
-    
-    // Cập nhật UI
-    renderQuests(getCurrentFilter());
-    updateStats();
-    
-    // Hiệu ứng thông báo
-    showNotification('Nhiệm vụ mới đã được thêm!');
-}
-
-// Hoàn thành nhiệm vụ
-function completeQuest(id) {
-    const questIndex = quests.findIndex(q => q.id === id);
-    if (questIndex !== -1) {
-        quests[questIndex].completed = true;
+    try {
+        // Gọi API để tạo nhiệm vụ mới
+        const newQuest = await apiManager.quest.create(questData);
         
-        // Tính XP dựa trên độ khó
-        let xpGained = 10;
-        if (quests[questIndex].difficulty === 'medium') xpGained = 20;
-        if (quests[questIndex].difficulty === 'hard') xpGained = 30;
+        // Thêm vào mảng nhiệm vụ
+        quests.push(newQuest);
         
-        xpPoints += xpGained;
+        // Reset form
+        questForm.reset();
         
         // Cập nhật UI
         renderQuests(getCurrentFilter());
         updateStats();
         
         // Hiệu ứng thông báo
-        showNotification(`Nhiệm vụ hoàn thành! +${xpGained} XP`);
+        showNotification('Nhiệm vụ mới đã được thêm!');
+    } catch (error) {
+        console.error('Lỗi khi tạo nhiệm vụ:', error);
+        showNotification('Không thể tạo nhiệm vụ: ' + (error.message || 'Lỗi không xác định'));
+    }
+}
+
+// Hoàn thành nhiệm vụ
+async function completeQuest(id) {
+    try {
+        // Gọi API để đánh dấu nhiệm vụ hoàn thành
+        const result = await apiManager.quest.complete(id);
+        
+        // Tìm nhiệm vụ trong mảng
+        const questIndex = quests.findIndex(q => q._id === id);
+        
+        if (questIndex !== -1) {
+            // Cập nhật thông tin nhiệm vụ
+            quests[questIndex] = result.quest;
+            
+            // Cập nhật XP
+            xpPoints = result.user.xp;
+            
+            // Cập nhật UI
+            renderQuests(getCurrentFilter());
+            updateStats();
+            
+            // Hiệu ứng thông báo
+            showNotification(`Nhiệm vụ hoàn thành! +${result.xpEarned} XP`);
+        }
+    } catch (error) {
+        console.error('Lỗi khi hoàn thành nhiệm vụ:', error);
+        showNotification('Không thể hoàn thành nhiệm vụ: ' + (error.message || 'Lỗi không xác định'));
     }
 }
 
 // Xóa nhiệm vụ
-function deleteQuest(id) {
-    quests = quests.filter(quest => quest.id !== id);
-    
-    // Cập nhật UI
-    renderQuests(getCurrentFilter());
-    updateStats();
-    
-    // Hiệu ứng thông báo
-    showNotification('Nhiệm vụ đã bị xóa!');
+async function deleteQuest(id) {
+    try {
+        // Xác nhận xóa
+        if (!confirm('Bạn có chắc chắn muốn xóa nhiệm vụ này?')) {
+            return;
+        }
+        
+        // Gọi API để xóa nhiệm vụ
+        await apiManager.quest.delete(id);
+        
+        // Xóa nhiệm vụ khỏi mảng
+        quests = quests.filter(quest => quest._id !== id);
+        
+        // Cập nhật UI
+        renderQuests(getCurrentFilter());
+        updateStats();
+        
+        // Hiệu ứng thông báo
+        showNotification('Nhiệm vụ đã bị xóa!');
+    } catch (error) {
+        console.error('Lỗi khi xóa nhiệm vụ:', error);
+        showNotification('Không thể xóa nhiệm vụ: ' + (error.message || 'Lỗi không xác định'));
+    }
 }
 
 // Hiển thị thông báo
@@ -246,8 +292,8 @@ filterButtons.forEach(btn => {
 
 // Khởi tạo ứng dụng
 function initApp() {
-    renderQuests();
-    updateStats();
+    // Tải dữ liệu từ API
+    loadData();
 }
 
 // Chạy ứng dụng khi trang được tải

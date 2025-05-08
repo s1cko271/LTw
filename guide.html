@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hướng dẫn - Daily Quest Hub</title>
+    <title>Hướng dẫn sử dụng - Daily Quest Hub</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,13 +33,13 @@
         }
         
         .guide-section h3 {
-            color: #555;
+            color: #333;
             margin: 15px 0 10px;
         }
         
         .guide-section p {
-            margin-bottom: 15px;
-            line-height: 1.7;
+            margin-bottom: 10px;
+            line-height: 1.6;
         }
         
         .guide-section ul {
@@ -51,17 +51,99 @@
             margin-bottom: 8px;
         }
         
-        .guide-tip {
+        .guide-section .tip {
             background-color: #f0f8ff;
-            border-left: 4px solid #6a4c93;
             padding: 15px;
+            border-left: 4px solid #6a4c93;
             margin: 15px 0;
             border-radius: 0 5px 5px 0;
         }
         
-        .guide-tip i {
+        .guide-section .tip i {
             color: #6a4c93;
             margin-right: 10px;
+        }
+        
+        .guide-steps {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .guide-step {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .guide-step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background-color: #6a4c93;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-content h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            color: #555;
+            padding-left: 20px;
+            border-left: 2px solid #eee;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .faq-answer.show {
+            display: block;
+        }
+        
+        .guide-section img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -76,7 +158,7 @@
                 <a href="guide.html" class="active">Hướng dẫn</a>
                 <a href="stats.html">Thống kê</a>
                 <a href="tools.html">Công cụ</a>
-                <a href="about.html">Thông tin</a>
+                <a href="info.html">Thông tin</a>
                 <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
                 <a href="login.html" id="login-link">Đăng nhập</a>
                 <a href="register.html" id="register-link">Đăng ký</a>
@@ -88,96 +170,301 @@
     <div class="container">
         <header>
             <h1>Hướng dẫn sử dụng</h1>
-            <p>Tìm hiểu cách sử dụng Daily Quest Hub hiệu quả nhất</p>
+            <p>Tìm hiểu cách sử dụng Daily Quest Hub hiệu quả nhất!</p>
         </header>
 
         <div class="guide-container">
             <div class="guide-section">
                 <h2><i class="fas fa-book"></i> Giới thiệu</h2>
-                <p>Daily Quest Hub là ứng dụng giúp bạn biến công việc hàng ngày thành các nhiệm vụ thú vị, tạo động lực hoàn thành công việc và theo dõi tiến độ của bạn. Với hệ thống điểm kinh nghiệm (XP) và cấp độ, bạn sẽ cảm thấy thành tựu khi hoàn thành các nhiệm vụ.</p>
+                <p>Daily Quest Hub là ứng dụng giúp bạn biến công việc hàng ngày thành các nhiệm vụ thú vị, giúp tăng động lực và hiệu quả làm việc. Ứng dụng sử dụng hệ thống điểm kinh nghiệm (XP) và cấp độ để tạo cảm giác tiến bộ và thành tựu.</p>
+                
+                <div class="tip">
+                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Hãy đăng nhập để lưu trữ nhiệm vụ và tiến độ của bạn trên đám mây, giúp bạn có thể truy cập từ bất kỳ thiết bị nào.
+                </div>
             </div>
             
             <div class="guide-section">
                 <h2><i class="fas fa-tasks"></i> Quản lý nhiệm vụ</h2>
                 
                 <h3>Tạo nhiệm vụ mới</h3>
-                <p>Để tạo một nhiệm vụ mới, hãy làm theo các bước sau:</p>
-                <ul>
-                    <li>Truy cập trang chủ và tìm mục "Thêm nhiệm vụ mới"</li>
-                    <li>Nhập tên nhiệm vụ (bắt buộc)</li>
-                    <li>Thêm mô tả chi tiết (tùy chọn)</li>
-                    <li>Chọn độ khó: Dễ (10 XP), Trung bình (20 XP), hoặc Khó (30 XP)</li>
-                    <li>Đặt hạn chót nếu cần</li>
-                    <li>Nhấn nút "Thêm nhiệm vụ"</li>
-                </ul>
+                <p>Để tạo nhiệm vụ mới, hãy làm theo các bước sau:</p>
+                
+                <div class="guide-steps">
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Tìm đến phần "Thêm nhiệm vụ mới"</h4>
+                            <p>Trên trang chủ, bạn sẽ thấy một biểu mẫu để thêm nhiệm vụ mới.</p>
+                            <img src="images/guide/add-task.svg" alt="Thêm nhiệm vụ mới" onerror="this.src='https://via.placeholder.com/600x300/f0f0f0/6a4c93?text=Thêm+nhiệm+vụ+mới'; this.onerror=null;">
+                        </div>
+                    </div>
+                    
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Điền thông tin nhiệm vụ</h4>
+                            <p>Nhập tên nhiệm vụ (bắt buộc), thêm mô tả chi tiết (tùy chọn), chọn độ khó và đặt hạn chót (nếu cần).</p>
+                            <ul>
+                                <li><strong>Độ khó:</strong> Dễ (10 XP), Trung bình (20 XP), hoặc Khó (30 XP)</li>
+                                <li><strong>Hạn chót:</strong> Giúp bạn theo dõi thời hạn hoàn thành</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Nhấn nút "Thêm nhiệm vụ"</h4>
+                            <p>Sau khi điền đầy đủ thông tin, nhấn nút này để thêm nhiệm vụ vào danh sách của bạn.</p>
+                        </div>
+                    </div>
+                </div>
                 
                 <h3>Hoàn thành nhiệm vụ</h3>
                 <p>Khi bạn hoàn thành một nhiệm vụ:</p>
-                <ul>
-                    <li>Nhấn vào nút dấu tích bên cạnh nhiệm vụ</li>
-                    <li>Nhiệm vụ sẽ được đánh dấu là hoàn thành</li>
-                    <li>Bạn sẽ nhận được số điểm XP tương ứng với độ khó của nhiệm vụ</li>
-                    <li>Khi tích lũy đủ XP, bạn sẽ lên cấp</li>
-                </ul>
                 
-                <h3>Xóa nhiệm vụ</h3>
-                <p>Để xóa một nhiệm vụ, nhấn vào biểu tượng thùng rác bên cạnh nhiệm vụ đó.</p>
-                
-                <div class="guide-tip">
-                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Hãy chia nhỏ các nhiệm vụ lớn thành nhiều nhiệm vụ nhỏ hơn để dễ quản lý và tạo cảm giác thành tựu khi hoàn thành từng phần.
+                <div class="guide-steps">
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Tìm nhiệm vụ trong danh sách</h4>
+                            <p>Xác định nhiệm vụ bạn đã hoàn thành trong danh sách nhiệm vụ.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Đánh dấu hoàn thành</h4>
+                            <p>Nhấn vào biểu tượng dấu tích bên cạnh nhiệm vụ để đánh dấu là đã hoàn thành.</p>
+                            <img src="images/guide/complete-task.svg" alt="Đánh dấu hoàn thành" onerror="this.src='https://via.placeholder.com/600x200/f0f0f0/6a4c93?text=Đánh+dấu+hoàn+thành'; this.onerror=null;">
+                        </div>
+                    </div>
+                    
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Nhận XP thưởng</h4>
+                            <p>Bạn sẽ nhận được số điểm XP tương ứng với độ khó của nhiệm vụ và thấy thông báo xác nhận.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="guide-section">
-                <h2><i class="fas fa-filter"></i> Lọc và sắp xếp nhiệm vụ</h2>
+                
+                <h3>Lọc nhiệm vụ</h3>
                 <p>Bạn có thể lọc danh sách nhiệm vụ bằng cách sử dụng các nút lọc:</p>
                 <ul>
-                    <li><strong>Tất cả:</strong> Hiển thị tất cả nhiệm vụ</li>
-                    <li><strong>Đang chờ:</strong> Chỉ hiển thị các nhiệm vụ chưa hoàn thành</li>
-                    <li><strong>Hoàn thành:</strong> Chỉ hiển thị các nhiệm vụ đã hoàn thành</li>
-                </ul>
-            </div>
-            
-            <div class="guide-section">
-                <h2><i class="fas fa-user"></i> Quản lý tài khoản</h2>
-                
-                <h3>Đăng ký tài khoản</h3>
-                <p>Để sử dụng đầy đủ tính năng của Daily Quest Hub, bạn cần đăng ký tài khoản:</p>
-                <ul>
-                    <li>Nhấn vào "Đăng ký" trên thanh điều hướng</li>
-                    <li>Điền đầy đủ thông tin: tên, email, mật khẩu</li>
-                    <li>Nhấn nút "Đăng ký" để hoàn tất</li>
+                    <li><strong>Tất cả</strong>: Hiển thị tất cả nhiệm vụ</li>
+                    <li><strong>Đang chờ</strong>: Chỉ hiển thị nhiệm vụ chưa hoàn thành</li>
+                    <li><strong>Hoàn thành</strong>: Chỉ hiển thị nhiệm vụ đã hoàn thành</li>
                 </ul>
                 
-                <h3>Đăng nhập</h3>
-                <p>Nếu bạn đã có tài khoản, hãy đăng nhập để truy cập dữ liệu của bạn:</p>
-                <ul>
-                    <li>Nhấn vào "Đăng nhập" trên thanh điều hướng</li>
-                    <li>Nhập email và mật khẩu của bạn</li>
-                    <li>Nhấn nút "Đăng nhập"</li>
-                </ul>
+                <img src="images/guide/filter-tasks.svg" alt="Lọc nhiệm vụ" onerror="this.src='https://via.placeholder.com/800x200/f0f0f0/6a4c93?text=Lọc+nhiệm+vụ'; this.onerror=null;" style="margin: 15px 0;">
                 
-                <h3>Quản lý hồ sơ</h3>
-                <p>Sau khi đăng nhập, bạn có thể quản lý hồ sơ của mình:</p>
-                <ul>
-                    <li>Nhấn vào "Hồ sơ" trên thanh điều hướng</li>
-                    <li>Xem thông tin cá nhân và tiến độ</li>
-                    <li>Cập nhật thông tin cá nhân nếu cần</li>
-                </ul>
-                
-                <div class="guide-tip">
-                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Đăng nhập để đồng bộ dữ liệu nhiệm vụ của bạn giữa các thiết bị và không bao giờ mất dữ liệu.
+                <div class="tip">
+                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Hãy ưu tiên các nhiệm vụ có hạn chót gần nhất hoặc đã quá hạn để tránh bị tồn đọng công việc.
                 </div>
             </div>
             
             <div class="guide-section">
-                <h2><i class="fas fa-chart-line"></i> Theo dõi tiến độ</h2>
-                <p>Daily Quest Hub cung cấp nhiều cách để theo dõi tiến độ của bạn:</p>
+                <h2><i class="fas fa-chart-line"></i> Hệ thống XP và cấp độ</h2>
+                
+                <p>Daily Quest Hub sử dụng hệ thống điểm kinh nghiệm (XP) và cấp độ để tạo động lực:</p>
+                
+                <div style="display: flex; margin: 20px 0;">
+                    <div style="flex: 1; padding-right: 20px;">
+                        <h3>Cách nhận XP</h3>
+                        <ul>
+                            <li><strong>Hoàn thành nhiệm vụ:</strong> 10-30 XP tùy theo độ khó</li>
+                            <li><strong>Duy trì chuỗi ngày:</strong> Hoàn thành ít nhất một nhiệm vụ mỗi ngày</li>
+                            <li><strong>Đạt thành tích:</strong> Nhận XP thưởng khi đạt được thành tích</li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
+                            <rect width="300" height="150" fill="#f8f9fa" rx="10" ry="10"/>
+                            <circle cx="150" cy="75" r="50" fill="#6a4c93" opacity="0.8"/>
+                            <text x="150" y="85" font-family="Arial" font-size="24" fill="white" text-anchor="middle">XP</text>
+                            <path d="M80,75 L120,75" stroke="#6a4c93" stroke-width="2"/>
+                            <text x="70" y="80" font-family="Arial" font-size="12" fill="#333" text-anchor="end">Nhiệm vụ</text>
+                            <path d="M180,75 L220,75" stroke="#6a4c93" stroke-width="2"/>
+                            <text x="230" y="80" font-family="Arial" font-size="12" fill="#333">Cấp độ</text>
+                            <path d="M150,25 L150,50" stroke="#6a4c93" stroke-width="2"/>
+                            <text x="150" y="20" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Thành tích</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h3>Cấp độ</h3>
+                <p>Khi bạn tích lũy đủ XP, bạn sẽ được thăng cấp. Mỗi cấp độ yêu cầu nhiều XP hơn cấp trước đó:</p>
+                
+                <div style="display: flex; align-items: center; margin: 15px 0;">
+                    <div style="flex: 1;">
+                        <ul>
+                            <li><strong>Cấp 1:</strong> 0-100 XP</li>
+                            <li><strong>Cấp 2:</strong> 101-250 XP</li>
+                            <li><strong>Cấp 3:</strong> 251-450 XP</li>
+                            <li><strong>Cấp 4+:</strong> Yêu cầu XP tăng dần</li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
+                            <rect width="300" height="150" fill="#f8f9fa" rx="10" ry="10"/>
+                            <rect x="50" y="110" width="50" height="20" fill="#6a4c93" opacity="0.6"/>
+                            <rect x="100" y="90" width="50" height="40" fill="#6a4c93" opacity="0.7"/>
+                            <rect x="150" y="60" width="50" height="70" fill="#6a4c93" opacity="0.8"/>
+                            <rect x="200" y="20" width="50" height="110" fill="#6a4c93" opacity="0.9"/>
+                            <text x="75" y="130" font-family="Arial" font-size="10" fill="#333" text-anchor="middle">Cấp 1</text>
+                            <text x="125" y="130" font-family="Arial" font-size="10" fill="#333" text-anchor="middle">Cấp 2</text>
+                            <text x="175" y="130" font-family="Arial" font-size="10" fill="#333" text-anchor="middle">Cấp 3</text>
+                            <text x="225" y="130" font-family="Arial" font-size="10" fill="#333" text-anchor="middle">Cấp 4</text>
+                            <text x="150" y="15" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">XP yêu cầu cho mỗi cấp độ</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="tip">
+                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Hãy cố gắng hoàn thành ít nhất một nhiệm vụ mỗi ngày để duy trì chuỗi ngày liên tiếp và nhận thêm XP thưởng.
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-trophy"></i> Thành tích</h2>
+                
+                <p>Thành tích là những phần thưởng đặc biệt bạn nhận được khi đạt được các mốc quan trọng:</p>
+                
+                <div style="display: flex; margin: 20px 0;">
+                    <div style="flex: 1;">
+                        <h3>Các loại thành tích</h3>
+                        <ul>
+                            <li><strong>Người mới bắt đầu</strong>: Hoàn thành nhiệm vụ đầu tiên</li>
+                            <li><strong>Siêng năng</strong>: Hoàn thành 5 nhiệm vụ liên tiếp</li>
+                            <li><strong>Chuyên gia</strong>: Hoàn thành 10 nhiệm vụ khó</li>
+                            <li><strong>Nhà quản lý thời gian</strong>: Hoàn thành tất cả nhiệm vụ trước hạn trong 1 tuần</li>
+                            <li>Và nhiều thành tích khác...</li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+                            <rect width="300" height="200" fill="#f8f9fa" rx="10" ry="10"/>
+                            
+                            <!-- Thành tích 1 -->
+                            <rect x="30" y="30" width="240" height="40" fill="white" stroke="#eee" stroke-width="1" rx="5" ry="5"/>
+                            <circle cx="50" cy="50" r="15" fill="#ffd700" opacity="0.8"/>
+                            <text x="50" y="55" font-family="Arial" font-size="14" fill="white" text-anchor="middle">1</text>
+                            <text x="80" y="45" font-family="Arial" font-size="12" fill="#333">Người mới bắt đầu</text>
+                            <text x="80" y="60" font-family="Arial" font-size="10" fill="#777">+10 XP</text>
+                            
+                            <!-- Thành tích 2 -->
+                            <rect x="30" y="80" width="240" height="40" fill="white" stroke="#eee" stroke-width="1" rx="5" ry="5"/>
+                            <circle cx="50" cy="100" r="15" fill="#6a4c93" opacity="0.8"/>
+                            <text x="50" y="105" font-family="Arial" font-size="14" fill="white" text-anchor="middle">5</text>
+                            <text x="80" y="95" font-family="Arial" font-size="12" fill="#333">Siêng năng</text>
+                            <text x="80" y="110" font-family="Arial" font-size="10" fill="#777">+25 XP</text>
+                            
+                            <!-- Thành tích 3 -->
+                            <rect x="30" y="130" width="240" height="40" fill="white" stroke="#eee" stroke-width="1" rx="5" ry="5" opacity="0.5"/>
+                            <circle cx="50" cy="150" r="15" fill="#6a4c93" opacity="0.4"/>
+                            <text x="50" y="155" font-family="Arial" font-size="14" fill="white" text-anchor="middle">?</text>
+                            <text x="80" y="145" font-family="Arial" font-size="12" fill="#777">Chưa mở khóa</text>
+                            <text x="80" y="160" font-family="Arial" font-size="10" fill="#777">Tiếp tục hoàn thành nhiệm vụ</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <p>Bạn có thể xem tất cả thành tích đã đạt được trong trang Hồ sơ.</p>
+                
+                <div class="tip">
+                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Thành tích không chỉ giúp bạn nhận thêm XP mà còn là cách tuyệt vời để theo dõi sự tiến bộ của bạn trong hành trình sử dụng Daily Quest Hub.
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-cogs"></i> Cài đặt tài khoản</h2>
+                
+                <p>Bạn có thể quản lý tài khoản của mình trong trang Hồ sơ:</p>
+                
+                <h3>Cập nhật thông tin cá nhân</h3>
+                <ol>
+                    <li>Truy cập trang Hồ sơ</li>
+                    <li>Chuyển đến tab "Cài đặt"</li>
+                    <li>Cập nhật tên người dùng, email hoặc mật khẩu</li>
+                    <li>Nhấn "Lưu thay đổi"</li>
+                </ol>
+                
+                <div class="tip">
+                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Hãy sử dụng mật khẩu mạnh và không dùng chung mật khẩu với các tài khoản khác để bảo vệ tài khoản của bạn.
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-question-circle"></i> Câu hỏi thường gặp (FAQ)</h2>
+                
+                <p>Dưới đây là một số câu hỏi thường gặp từ người dùng:</p>
+                
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Làm thế nào để khôi phục mật khẩu đã quên?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Trên trang đăng nhập, nhấn vào liên kết "Quên mật khẩu". Nhập email đã đăng ký và làm theo hướng dẫn được gửi đến email của bạn để đặt lại mật khẩu.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Tôi có thể chỉnh sửa nhiệm vụ đã tạo không?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Có, bạn có thể chỉnh sửa nhiệm vụ bằng cách nhấn vào biểu tượng bút chì bên cạnh nhiệm vụ. Tại đây, bạn có thể thay đổi tên, mô tả, độ khó và hạn chót của nhiệm vụ.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Làm thế nào để xóa nhiệm vụ?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Để xóa nhiệm vụ, hãy nhấn vào biểu tượng thùng rác bên cạnh nhiệm vụ đó. Hệ thống sẽ yêu cầu xác nhận trước khi xóa vĩnh viễn nhiệm vụ.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Tôi có thể đặt nhiệm vụ lặp lại không?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Có, khi tạo nhiệm vụ mới, bạn có thể chọn tùy chọn "Lặp lại" và đặt chu kỳ lặp lại (hàng ngày, hàng tuần, hàng tháng). Khi bạn hoàn thành nhiệm vụ, hệ thống sẽ tự động tạo nhiệm vụ mới cho chu kỳ tiếp theo.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Làm thế nào để theo dõi tiến độ của tôi?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Bạn có thể xem tiến độ của mình trong trang "Thống kê". Tại đây, bạn sẽ thấy biểu đồ hiển thị số nhiệm vụ đã hoàn thành theo thời gian, XP đã kiếm được, và các thành tích đã đạt được.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-hands-helping"></i> Hỗ trợ</h2>
+                
+                <p>Nếu bạn cần thêm trợ giúp hoặc có câu hỏi, vui lòng liên hệ với chúng tôi qua:</p>
+                
                 <ul>
-                    <li><strong>Thống kê trên trang chủ:</strong> Xem nhanh số nhiệm vụ đang chờ, đã hoàn thành và tổng XP</li>
-                    <li><strong>Trang Thống kê:</strong> Xem biểu đồ và phân tích chi tiết về hiệu suất của bạn</li>
-                    <li><strong>Hồ sơ cá nhân:</strong> Theo dõi cấp độ và thành tích của bạn</li>
+                    <li>Email: support@dailyquesthub.com</li>
+                    <li>Trang Thông tin > Liên hệ</li>
                 </ul>
+                
+                <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn!</p>
             </div>
         </div>
 
@@ -186,8 +473,67 @@
         </footer>
     </div>
 
-    <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/tools.js"></script>
+    <script>
+        // Cập nhật hiển thị thanh điều hướng dựa trên trạng thái đăng nhập
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra trạng thái đăng nhập và cập nhật UI
+            const currentUser = window.authManager.getCurrentUser();
+            const profileLink = document.getElementById('profile-link');
+            const loginLink = document.getElementById('login-link');
+            const registerLink = document.getElementById('register-link');
+            const logoutLink = document.getElementById('logout-link');
+            
+            if (currentUser) {
+                // Người dùng đã đăng nhập
+                profileLink.style.display = 'inline-block';
+                logoutLink.style.display = 'inline-block';
+                loginLink.style.display = 'none';
+                registerLink.style.display = 'none';
+            } else {
+                // Người dùng chưa đăng nhập
+                profileLink.style.display = 'none';
+                logoutLink.style.display = 'none';
+                loginLink.style.display = 'inline-block';
+                registerLink.style.display = 'inline-block';
+            }
+            
+            // Xử lý sự kiện đăng xuất
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.authManager.handleLogout();
+            });
+            
+            // Xử lý tương tác với FAQ
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    // Toggle active class cho câu hỏi
+                    this.classList.toggle('active');
+                    
+                    // Tìm phần câu trả lời tương ứng
+                    const answer = this.nextElementSibling;
+                    
+                    // Toggle class show để hiển thị/ẩn câu trả lời
+                    answer.classList.toggle('show');
+                    
+                    // Hiệu ứng trượt mượt mà khi hiển thị/ẩn
+                    if (answer.classList.contains('show')) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    } else {
+                        answer.style.maxHeight = '0';
+                    }
+                });
+            });
+            
+            // Khởi tạo trạng thái ban đầu cho các câu trả lời
+            document.querySelectorAll('.faq-answer').forEach(answer => {
+                answer.style.maxHeight = '0';
+                answer.style.overflow = 'hidden';
+                answer.style.transition = 'max-height 0.3s ease';
+            });
+        });
+    </script>
 </body>
 </html>

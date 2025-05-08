@@ -33,6 +33,42 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('settings-username').value = currentUser.username;
         document.getElementById('settings-email').value = currentUser.email;
         
+        // Thêm ảnh đại diện nếu có
+        const avatarPreview = document.getElementById('avatar-preview');
+        if (avatarPreview && currentUser.avatar) {
+            avatarPreview.src = currentUser.avatar;
+            avatarPreview.style.display = 'block';
+        }
+        
+        // Xử lý tải lên ảnh đại diện
+        const avatarInput = document.getElementById('avatar-upload');
+        if (avatarInput) {
+            avatarInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Kiểm tra loại file
+                    if (!file.type.match('image.*')) {
+                        alert('Vui lòng chọn file hình ảnh!');
+                        return;
+                    }
+                    
+                    // Kiểm tra kích thước file (tối đa 2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('Kích thước file quá lớn! Vui lòng chọn file nhỏ hơn 2MB.');
+                        return;
+                    }
+                    
+                    // Hiển thị ảnh xem trước
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        avatarPreview.src = e.target.result;
+                        avatarPreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
         // Xử lý sự kiện submit form
         settingsForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -41,35 +77,114 @@ document.addEventListener('DOMContentLoaded', function() {
             const email = document.getElementById('settings-email').value.trim();
             const password = document.getElementById('settings-password').value;
             const confirmPassword = document.getElementById('settings-confirm-password').value;
+            const bio = document.getElementById('settings-bio') ? document.getElementById('settings-bio').value.trim() : '';
             
-            // Kiểm tra mật khẩu nếu người dùng muốn thay đổi
-            if (password && password !== confirmPassword) {
-                alert('Mật khẩu xác nhận không khớp!');
+            // Xác thực dữ liệu
+            if (!username) {
+                showFormError('Tên người dùng không được để trống!');
                 return;
             }
+            
+            if (!email) {
+                showFormError('Email không được để trống!');
+                return;
+            }
+            
+            // Kiểm tra định dạng email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showFormError('Email không hợp lệ!');
+                return;
+            }
+            
+            // Kiểm tra mật khẩu nếu người dùng muốn thay đổi
+            if (password) {
+                if (password.length < 6) {
+                    showFormError('Mật khẩu phải có ít nhất 6 ký tự!');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showFormError('Mật khẩu xác nhận không khớp!');
+                    return;
+                }
+            }
+            
+            // Hiển thị trạng thái đang cập nhật
+            const submitBtn = settingsForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang cập nhật...';
+            submitBtn.disabled = true;
             
             // Cập nhật thông tin người dùng
             const updatedInfo = {
                 username: username,
-                email: email
+                email: email,
+                bio: bio
             };
+            
+            // Thêm avatar nếu có thay đổi
+            if (avatarPreview && avatarPreview.style.display !== 'none') {
+                updatedInfo.avatar = avatarPreview.src;
+            }
             
             // Cập nhật mật khẩu nếu có nhập
             if (password) {
                 updatedInfo.password = password;
             }
             
-            // Gọi hàm cập nhật từ auth.js
-            const success = window.authManager.updateUserInfo(updatedInfo);
-            
-            if (success) {
-                alert('Cập nhật thông tin thành công!');
-                // Cập nhật lại thông tin hiển thị
-                updateProfileInfo(window.authManager.getCurrentUser());
-            } else {
-                alert('Có lỗi xảy ra khi cập nhật thông tin!');
+            // Gọi hàm cập nhật từ auth.js hoặc API
+            try {
+                // Nếu có API thực tế, sử dụng window.apiManager.user.updateProfile(updatedInfo)
+                const success = window.authManager.updateUserInfo(updatedInfo);
+                
+                if (success) {
+                    showFormSuccess('Cập nhật thông tin thành công!');
+                    // Cập nhật lại thông tin hiển thị
+                    updateProfileInfo(window.authManager.getCurrentUser());
+                } else {
+                    showFormError('Có lỗi xảy ra khi cập nhật thông tin!');
+                }
+            } catch (error) {
+                showFormError('Có lỗi xảy ra: ' + error.message);
+            } finally {
+                // Khôi phục trạng thái nút submit
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
             }
         });
+        
+        // Hàm hiển thị lỗi
+        function showFormError(message) {
+            const errorElement = document.getElementById('settings-error');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+                
+                // Tự động ẩn thông báo sau 5 giây
+                setTimeout(() => {
+                    errorElement.style.display = 'none';
+                }, 5000);
+            } else {
+                alert(message);
+            }
+        }
+        
+        // Hàm hiển thị thành công
+        function showFormSuccess(message) {
+            const successElement = document.getElementById('settings-success');
+            if (successElement) {
+                successElement.textContent = message;
+                successElement.style.display = 'block';
+                
+                // Tự động ẩn thông báo sau 5 giây
+                setTimeout(() => {
+                    successElement.style.display = 'none';
+                }, 5000);
+            } else {
+                alert(message);
+            }
+        }
     }
     
     // Xử lý nút đăng xuất

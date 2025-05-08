@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công cụ - Daily Quest Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tools-container {
+            max-width: 900px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .tool-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: #6a4c93;
+            font-size: 1.8rem;
+        }
+        
+        .tool-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .tool-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .tool-card button {
+            background-color: #6a4c93;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .tool-card button:hover {
+            background-color: #5a3d83;
+        }
+        
+        .tool-card button i {
+            margin-right: 8px;
+        }
+        
+        .tool-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            color: #6a4c93;
+            margin: 0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close-modal:hover {
+            color: #333;
+        }
+        
+        .timer-container, .pomodoro-container, .habit-tracker-container, .notes-container {
+            margin-top: 20px;
+        }
+        
+        .timer-display {
+            font-size: 3rem;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .timer-controls button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .start-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .pause-btn {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .reset-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .pomodoro-settings {
+            margin-bottom: 20px;
+        }
+        
+        .pomodoro-settings label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .pomodoro-settings input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .habit-list {
+            margin-top: 20px;
+        }
+        
+        .habit-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .habit-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .habit-name {
+            flex-grow: 1;
+        }
+        
+        .habit-streak {
+            background-color: #6a4c93;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .notes-textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+            margin-bottom: 15px;
+        }
+        
+        .save-notes-btn {
+            background-color: #6a4c93;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><i class="fas fa-scroll"></i> Daily Quest Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="guide.html">Hướng dẫn</a>
+                <a href="stats.html">Thống kê</a>
+                <a href="tools.html" class="active">Công cụ</a>
+                <a href="about.html">Thông tin</a>
+                <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
+                <a href="login.html" id="login-link">Đăng nhập</a>
+                <a href="register.html" id="register-link">Đăng ký</a>
+                <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>Công cụ hỗ trợ</h1>
+            <p>Các tiện ích giúp bạn quản lý công việc hiệu quả hơn</p>
+        </header>
+
+        <div class="tools-container">
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-stopwatch"></i>
+                </div>
+                <h3>Đồng hồ đếm ngược</h3>
+                <p>Đặt thời gian đếm ngược để hoàn thành nhiệm vụ trong khung thời gian cụ thể.</p>
+                <button id="open-timer-btn"><i class="fas fa-play"></i> Mở công cụ</button>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <h3>Pomodoro Timer</h3>
+                <p>Sử dụng kỹ thuật Pomodoro để tăng năng suất làm việc với chu kỳ làm việc và nghỉ ngơi.</p>
+                <button id="open-pomodoro-btn"><i class="fas fa-play"></i> Mở công cụ</button>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Theo dõi thói quen</h3>
+                <p>Xây dựng và duy trì các thói quen tốt bằng cách theo dõi chuỗi ngày liên tiếp.</p>
+                <button id="open-habit-btn"><i class="fas fa-play"></i> Mở công cụ</button>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-sticky-note"></i>
+                </div>
+                <h3>Ghi chú nhanh</h3>
+                <p>Tạo và lưu các ghi chú nhanh để không bỏ lỡ ý tưởng hoặc thông tin quan trọng.</p>
+                <button id="open-notes-btn"><i class="fas fa-play"></i> Mở công cụ</button>
+            </div>
+        </div>
+        
+        <!-- Modal cho đồng hồ đếm ngược -->
+        <div id="timer-modal" class="tool-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-stopwatch"></i> Đồng hồ đếm ngược</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="timer-container">
+                    <div class="timer-settings">
+                        <label for="timer-minutes">Đặt thời gian (phút):</label>
+                        <input type="number" id="timer-minutes" min="1" max="60" value="25">
+                        <button id="set-timer-btn" class="start-btn">Đặt thời gian</button>
+                    </div>
+                    <div class="timer-display" id="timer-display">25:00</div>
+                    <div class="timer-controls">
+                        <button id="start-timer" class="start-btn"><i class="fas fa-play"></i> Bắt đầu</button>
+                        <button id="pause-timer" class="pause-btn"><i class="fas fa-pause"></i> Tạm dừng</button>
+                        <button id="reset-timer" class="reset-btn"><i class="fas fa-redo"></i> Đặt lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal cho Pomodoro Timer -->
+        <div id="pomodoro-modal" class="tool-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-hourglass-half"></i> Pomodoro Timer</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="pomodoro-container">
+                    <div class="pomodoro-settings">
+                        <label for="work-duration">Thời gian làm việc (phút):</label>
+                        <input type="number" id="work-duration" min="1" max="60" value="25">
+                        
+                        <label for="break-duration">Thời gian nghỉ ngắn (phút):</label>
+                        <input type="number" id="break-duration" min="1" max="30" value="5">
+                        
+                        <label for="long-break-duration">Thời gian nghỉ dài (phút):</label>
+                        <input type="number" id="long-break-duration" min="1" max="60" value="15">
+                        
+                        <label for="pomodoro-cycles">Số chu kỳ trước khi nghỉ dài:</label>
+                        <input type="number" id="pomodoro-cycles" min="1" max="10" value="4">
+                        
+                        <button id="save-pomodoro-settings" class="start-btn">Lưu cài đặt</button>
+                    </div>
+                    <div class="timer-display" id="pomodoro-display">25:00</div>
+                    <p id="pomodoro-status">Sẵn sàng làm việc</p>
+                    <div class="timer-controls">
+                        <button id="start-pomodoro" class="start-btn"><i class="fas fa-play"></i> Bắt đầu</button>
+                        <button id="pause-pomodoro" class="pause-btn"><i class="fas fa-pause"></i> Tạm dừng</button>
+                        <button id="reset-pomodoro" class="reset-btn"><i class="fas fa-redo"></i> Đặt lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal cho Theo dõi thói quen -->
+        <div id="habit-modal" class="tool-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-calendar-check"></i> Theo dõi thói quen</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="habit-tracker-container">
+                    <div class="habit-form">
+                        <label for="habit-name">Tên thói quen:</label>
+                        <input type="text" id="habit-name" placeholder="Nhập tên thói quen...">
+                        <button id="add-habit-btn" class="start-btn">Thêm thói quen</button>
+                    </div>
+                    <div class="habit-list" id="habit-list">
+                        <!-- Danh sách thói quen sẽ được thêm vào đây -->
+                        <div class="habit-item">
+                            <input type="checkbox" id="habit-1">
+                            <span class="habit-name">Uống 2 lít nước mỗi ngày</span>
+                            <span class="habit-streak">5 ngày</span>
+                        </div>
+                        <div class="habit-item">
+                            <input type="checkbox" id="habit-2">
+                            <span class="habit-name">Đọc sách 30 phút</span>
+                            <span class="habit-streak">3 ngày</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal cho Ghi chú nhanh -->
+        <div id="notes-modal" class="tool-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-sticky-note"></i> Ghi chú nhanh</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="notes-container">
+                    <textarea id="notes-textarea" class="notes-textarea" placeholder="Nhập ghi chú của bạn ở đây..."></textarea>
+                    <button id="save-notes-btn" class="save-notes-btn">Lưu ghi chú</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Daily Quest Hub </p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/tools.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lấy các phần tử modal
+            const timerModal = document.getElementById('timer-modal');
+            const pomodoroModal = document.getElementById('pomodoro-modal');
+            const habitModal = document.getElementById('habit-modal');
+            const notesModal = document.getElementById('notes-modal');
+            
+            // Lấy các nút mở modal
+            const openTimerBtn = document.getElementById('open-timer-btn');
+            const openPomodoroBtn = document.getElementById('open-pomodoro-btn');
+            const openHabitBtn = document.getElementById('open-habit-btn');
+            const openNotesBtn = document.getElementById('open-notes-btn');
+            
+            // Lấy các nút đóng modal
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            // Thêm sự kiện cho các nút mở modal
+            openTimerBtn.addEventListener('click', function() {
+                timerModal.style.display = 'flex';
+            });
+            
+            openPomodoroBtn.addEventListener('click', function() {
+                pomodoroModal.style.display = 'flex';
+            });
+            
+            openHabitBtn.addEventListener('click', function() {
+                habitModal.style.display = 'flex';
+            });
+            
+            openNotesBtn.addEventListener('click', function() {
+                notesModal.style.display = 'flex';
+                // Tải ghi chú đã lưu (nếu có)
+                const savedNotes = localStorage.getItem('quick-notes') || '';
+                document.getElementById('notes-textarea').value = savedNotes;
+            });
+            
+            // Thêm sự kiện cho các nút đóng modal
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    timerModal.style.display = 'none';
+                    pomodoroModal.style.display = 'none';
+                    habitModal.style.display = 'none';
+                    notesModal.style.display = 'none';
+                });
+            });
+            
+            // Đóng modal khi nhấp vào bên ngoài
+            window.addEventListener('click', function(event) {
+                if (event.target === timerModal) {
+                    timerModal.style.display = 'none';
+                }
+                if (event.target === pomodoroModal) {
+                    pomodoroModal.style.display = 'none';
+                }
+                if (event.target === habitModal) {
+                    habitModal.style.display = 'none';
+                }
+                if (event.target === notesModal) {
+                    notesModal.style.display = 'none';
+                }
+            });
+            
+            // Xử lý lưu ghi chú
+            const saveNotesBtn = document.getElementById('save-notes-btn');
+            saveNotesBtn.addEventListener('click', function() {
+                const notes = document.getElementById('notes-textarea').value;
+                localStorage.setItem('quick-notes', notes);
+                alert('Ghi chú đã được lưu!');
+            });
+            
+            // Xử lý đồng hồ đếm ngược
+            let timerInterval;
+            let timerSeconds = 25 * 60;
+            
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                document.getElementById('timer-display').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            document.getElementById('set-timer-btn').addEventListener('click', function() {
+                const minutes = parseInt(document.getElementById('timer-minutes').value);
+                if (minutes > 0) {
+                    timerSeconds = minutes * 60;
+                    updateTimerDisplay();
+                }
+            });
+            
+            document.getElementById('start-timer').addEventListener('click', function() {
+                clearInterval(timerInterval);
+                timerInterval = setInterval(function() {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        alert('Thời gian đã hết!');
+                    }
+                }, 1000);
+            });
+            
+            document.getElementById('pause-timer').addEventListener('click', function() {
+                clearInterval(timerInterval);
+            });
+            
+            document.getElementById('reset-timer').addEventListener('click', function() {
+                clearInterval(timerInterval);
+                timerSeconds = 25 * 60;
+                updateTimerDisplay();
+            });
+        });
+    </script>
+</body>
+</html>

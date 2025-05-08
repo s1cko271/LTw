@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn - Daily Quest Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .guide-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .guide-section {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .guide-section:last-child {
+            border-bottom: none;
+        }
+        
+        .guide-section h2 {
+            color: #6a4c93;
+            margin-bottom: 15px;
+        }
+        
+        .guide-section h3 {
+            color: #555;
+            margin: 15px 0 10px;
+        }
+        
+        .guide-section p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .guide-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .guide-section li {
+            margin-bottom: 8px;
+        }
+        
+        .guide-tip {
+            background-color: #f0f8ff;
+            border-left: 4px solid #6a4c93;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .guide-tip i {
+            color: #6a4c93;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><i class="fas fa-scroll"></i> Daily Quest Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="guide.html" class="active">Hướng dẫn</a>
+                <a href="stats.html">Thống kê</a>
+                <a href="tools.html">Công cụ</a>
+                <a href="about.html">Thông tin</a>
+                <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
+                <a href="login.html" id="login-link">Đăng nhập</a>
+                <a href="register.html" id="register-link">Đăng ký</a>
+                <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>Hướng dẫn sử dụng</h1>
+            <p>Tìm hiểu cách sử dụng Daily Quest Hub hiệu quả nhất</p>
+        </header>
+
+        <div class="guide-container">
+            <div class="guide-section">
+                <h2><i class="fas fa-book"></i> Giới thiệu</h2>
+                <p>Daily Quest Hub là ứng dụng giúp bạn biến công việc hàng ngày thành các nhiệm vụ thú vị, tạo động lực hoàn thành công việc và theo dõi tiến độ của bạn. Với hệ thống điểm kinh nghiệm (XP) và cấp độ, bạn sẽ cảm thấy thành tựu khi hoàn thành các nhiệm vụ.</p>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-tasks"></i> Quản lý nhiệm vụ</h2>
+                
+                <h3>Tạo nhiệm vụ mới</h3>
+                <p>Để tạo một nhiệm vụ mới, hãy làm theo các bước sau:</p>
+                <ul>
+                    <li>Truy cập trang chủ và tìm mục "Thêm nhiệm vụ mới"</li>
+                    <li>Nhập tên nhiệm vụ (bắt buộc)</li>
+                    <li>Thêm mô tả chi tiết (tùy chọn)</li>
+                    <li>Chọn độ khó: Dễ (10 XP), Trung bình (20 XP), hoặc Khó (30 XP)</li>
+                    <li>Đặt hạn chót nếu cần</li>
+                    <li>Nhấn nút "Thêm nhiệm vụ"</li>
+                </ul>
+                
+                <h3>Hoàn thành nhiệm vụ</h3>
+                <p>Khi bạn hoàn thành một nhiệm vụ:</p>
+                <ul>
+                    <li>Nhấn vào nút dấu tích bên cạnh nhiệm vụ</li>
+                    <li>Nhiệm vụ sẽ được đánh dấu là hoàn thành</li>
+                    <li>Bạn sẽ nhận được số điểm XP tương ứng với độ khó của nhiệm vụ</li>
+                    <li>Khi tích lũy đủ XP, bạn sẽ lên cấp</li>
+                </ul>
+                
+                <h3>Xóa nhiệm vụ</h3>
+                <p>Để xóa một nhiệm vụ, nhấn vào biểu tượng thùng rác bên cạnh nhiệm vụ đó.</p>
+                
+                <div class="guide-tip">
+                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Hãy chia nhỏ các nhiệm vụ lớn thành nhiều nhiệm vụ nhỏ hơn để dễ quản lý và tạo cảm giác thành tựu khi hoàn thành từng phần.
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-filter"></i> Lọc và sắp xếp nhiệm vụ</h2>
+                <p>Bạn có thể lọc danh sách nhiệm vụ bằng cách sử dụng các nút lọc:</p>
+                <ul>
+                    <li><strong>Tất cả:</strong> Hiển thị tất cả nhiệm vụ</li>
+                    <li><strong>Đang chờ:</strong> Chỉ hiển thị các nhiệm vụ chưa hoàn thành</li>
+                    <li><strong>Hoàn thành:</strong> Chỉ hiển thị các nhiệm vụ đã hoàn thành</li>
+                </ul>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-user"></i> Quản lý tài khoản</h2>
+                
+                <h3>Đăng ký tài khoản</h3>
+                <p>Để sử dụng đầy đủ tính năng của Daily Quest Hub, bạn cần đăng ký tài khoản:</p>
+                <ul>
+                    <li>Nhấn vào "Đăng ký" trên thanh điều hướng</li>
+                    <li>Điền đầy đủ thông tin: tên, email, mật khẩu</li>
+                    <li>Nhấn nút "Đăng ký" để hoàn tất</li>
+                </ul>
+                
+                <h3>Đăng nhập</h3>
+                <p>Nếu bạn đã có tài khoản, hãy đăng nhập để truy cập dữ liệu của bạn:</p>
+                <ul>
+                    <li>Nhấn vào "Đăng nhập" trên thanh điều hướng</li>
+                    <li>Nhập email và mật khẩu của bạn</li>
+                    <li>Nhấn nút "Đăng nhập"</li>
+                </ul>
+                
+                <h3>Quản lý hồ sơ</h3>
+                <p>Sau khi đăng nhập, bạn có thể quản lý hồ sơ của mình:</p>
+                <ul>
+                    <li>Nhấn vào "Hồ sơ" trên thanh điều hướng</li>
+                    <li>Xem thông tin cá nhân và tiến độ</li>
+                    <li>Cập nhật thông tin cá nhân nếu cần</li>
+                </ul>
+                
+                <div class="guide-tip">
+                    <i class="fas fa-lightbulb"></i> <strong>Mẹo:</strong> Đăng nhập để đồng bộ dữ liệu nhiệm vụ của bạn giữa các thiết bị và không bao giờ mất dữ liệu.
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2><i class="fas fa-chart-line"></i> Theo dõi tiến độ</h2>
+                <p>Daily Quest Hub cung cấp nhiều cách để theo dõi tiến độ của bạn:</p>
+                <ul>
+                    <li><strong>Thống kê trên trang chủ:</strong> Xem nhanh số nhiệm vụ đang chờ, đã hoàn thành và tổng XP</li>
+                    <li><strong>Trang Thống kê:</strong> Xem biểu đồ và phân tích chi tiết về hiệu suất của bạn</li>
+                    <li><strong>Hồ sơ cá nhân:</strong> Theo dõi cấp độ và thành tích của bạn</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Daily Quest Hub </p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/tools.js"></script>
+</body>
+</html>

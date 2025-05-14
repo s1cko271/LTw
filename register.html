@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - Daily Quest Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f3e9ff 0%, #f8fafc 100%);
+        }
+        .auth-container {
+            max-width: 450px;
+            margin: 80px auto;
+            background-color: white;
+            border-radius: 18px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 32px rgba(106,76,147,0.12);
+        }
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #6a4c93;
+        }
+        .auth-logo i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .auth-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .auth-form {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            border-color: #a084ca;
+            outline: none;
+        }
+        .auth-btn {
+            width: 100%;
+            background: linear-gradient(120deg, #a084ca 0%, #6a4c93 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106,76,147,0.2);
+        }
+        .auth-links {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .auth-links a {
+            color: #6a4c93;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><i class="fas fa-scroll"></i> Daily Quest Hub</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="tasks.html">Nhiệm vụ</a>
+                <a href="guide.html">Hướng dẫn</a>
+                <a href="stats.html">Thống kê</a>
+                <a href="tools.html">Công cụ</a>
+                <a href="info.html">Thông tin</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="auth-container">
+        <div class="auth-logo">
+            <i class="fas fa-scroll"></i>
+            <h1>Đăng ký tài khoản</h1>
+        </div>
+        
+        <form class="auth-form" id="register-form">
+            <div class="form-group">
+                <label for="username">Tên người dùng</label>
+                <input type="text" id="username" name="username" required>
+                <div class="error-message" id="username-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error-message" id="email-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" required>
+                <div class="error-message" id="password-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm-password">Xác nhận mật khẩu</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                <div class="error-message" id="confirm-password-error"></div>
+            </div>
+            
+            <button type="submit" class="auth-btn">Đăng ký</button>
+            <div class="error-message" id="register-error"></div>
+        </form>
+        
+        <div class="auth-links">
+            <p>Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+        </div>
+    </div>
+    
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

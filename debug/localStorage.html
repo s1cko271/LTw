@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalStorage Debug - Daily Quest Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #6a4c93;
+        }
+        .storage-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .key {
+            font-weight: bold;
+            color: #6a4c93;
+        }
+        .value {
+            font-family: monospace;
+            white-space: pre-wrap;
+            background-color: #f5f5f5;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow: auto;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #6a4c93;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #8a6cb3;
+        }
+        #storage-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>LocalStorage Debug</h1>
+    
+    <button id="refresh-btn">Làm mới dữ liệu</button>
+    <button id="clear-storage">Xóa tất cả dữ liệu</button>
+    
+    <div id="storage-container"></div>
+    
+    <script>
+        // Hiển thị dữ liệu trong localStorage
+        function displayLocalStorage() {
+            const container = document.getElementById('storage-container');
+            container.innerHTML = '';
+            
+            if (localStorage.length === 0) {
+                container.innerHTML = '<p>Không có dữ liệu nào trong localStorage</p>';
+                return;
+            }
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                let value = localStorage.getItem(key);
+                
+                try {
+                    // Thử định dạng JSON nếu có thể
+                    const parsedValue = JSON.parse(value);
+                    value = JSON.stringify(parsedValue, null, 2);
+                } catch (e) {
+                    // Giữ nguyên giá trị nếu không phải JSON
+                }
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'storage-item';
+                
+                const keyElem = document.createElement('div');
+                keyElem.className = 'key';
+                keyElem.textContent = key;
+                
+                const valueElem = document.createElement('div');
+                valueElem.className = 'value';
+                valueElem.textContent = value;
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Xóa';
+                deleteBtn.onclick = function() {
+                    localStorage.removeItem(key);
+                    displayLocalStorage();
+                };
+                
+                itemDiv.appendChild(keyElem);
+                itemDiv.appendChild(valueElem);
+                itemDiv.appendChild(deleteBtn);
+                
+                container.appendChild(itemDiv);
+            }
+        }
+        
+        // Xóa tất cả dữ liệu
+        document.getElementById('clear-storage').addEventListener('click', function() {
+            if (confirm('Bạn có chắc muốn xóa tất cả dữ liệu trong localStorage?')) {
+                localStorage.clear();
+                displayLocalStorage();
+            }
+        });
+        
+        // Làm mới dữ liệu
+        document.getElementById('refresh-btn').addEventListener('click', function() {
+            displayLocalStorage();
+        });
+        
+        // Hiển thị dữ liệu khi tải trang
+        window.addEventListener('DOMContentLoaded', function() {
+            displayLocalStorage();
+        });
+    </script>
+</body>
+</html> 

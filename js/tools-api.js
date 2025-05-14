@@ -1,45 +1,71 @@
-// API cho các công cụ trong Daily Quest Hub
+// Quản lý dữ liệu công cụ với localStorage
 
-// Sử dụng API Manager từ api.js
-const toolsAPI = {
+// Lấy ID người dùng từ authManager
+function getUserId() {
+    const user = window.authManager?.getCurrentUser();
+    return user ? user.id : 'anonymous';
+}
+
+// Tạo key cho localStorage dựa trên loại công cụ và ID người dùng
+function getStorageKey(toolType) {
+    return `${toolType}_${getUserId()}`;
+}
+
+// Kiểm tra trạng thái đăng nhập
+function isLoggedIn() {
+    return window.authManager?.getCurrentUser() !== null;
+}
+
+// Lấy key với ID người dùng cụ thể (dùng cho trường hợp người dùng đã đăng xuất)
+function getKeyForUser(toolType, userId) {
+    return `${toolType}_${userId}`;
+}
+
+// Quản lý công cụ cho Daily Quest Hub
+window.toolsAPI = {
+    // Các hàm công cụ chung
+    getStorageKey: getStorageKey,
+    getKeyForUser: getKeyForUser,
+    
     // API cho Pomodoro Timer
     pomodoro: {
         // Lấy cài đặt Pomodoro
         getSettings: async function() {
-            try {
-                const response = await apiManager.request('/tools/pomodoro');
-                return response.data.pomodoro;
-            } catch (error) {
-                console.error('Lỗi khi lấy cài đặt Pomodoro:', error);
-                // Trả về cài đặt mặc định nếu có lỗi
-                return {
-                    workTime: 25 * 60,
-                    breakTime: 5 * 60,
-                    completedSessions: 0
-                };
-            }
+            const key = getStorageKey('pomodoro');
+            const savedSettings = localStorage.getItem(key);
+            
+            // Cài đặt mặc định
+            const defaultSettings = {
+                workTime: 25 * 60,  // 25 phút tính bằng giây
+                breakTime: 5 * 60,  // 5 phút tính bằng giây
+                completedSessions: 0
+            };
+            
+            return savedSettings ? JSON.parse(savedSettings) : defaultSettings;
         },
         
         // Cập nhật cài đặt Pomodoro
         updateSettings: async function(settings) {
-            try {
-                const response = await apiManager.request('/tools/pomodoro', 'PATCH', settings);
-                return response.data.pomodoro;
-            } catch (error) {
-                console.error('Lỗi khi cập nhật cài đặt Pomodoro:', error);
-                throw error;
-            }
+            const key = getStorageKey('pomodoro');
+            const currentSettings = await this.getSettings();
+            const updatedSettings = { ...currentSettings, ...settings };
+            
+            localStorage.setItem(key, JSON.stringify(updatedSettings));
+            return updatedSettings;
         },
         
         // Tăng số phiên đã hoàn thành
         incrementSessions: async function() {
-            try {
-                const response = await apiManager.request('/tools/pomodoro/increment', 'POST');
-                return response.data.pomodoro;
-            } catch (error) {
-                console.error('Lỗi khi cập nhật số phiên Pomodoro:', error);
-                throw error;
-            }
+            const key = getStorageKey('pomodoro');
+            const currentSettings = await this.getSettings();
+            
+            const updatedSettings = {
+                ...currentSettings,
+                completedSessions: (currentSettings.completedSessions || 0) + 1
+            };
+            
+            localStorage.setItem(key, JSON.stringify(updatedSettings));
+            return updatedSettings;
         }
     },
     
@@ -47,25 +73,26 @@ const toolsAPI = {
     checklist: {
         // Lấy danh sách kiểm tra
         getItems: async function() {
-            try {
-                const response = await apiManager.request('/tools/checklist');
-                return response.data.checklist.items || [];
-            } catch (error) {
-                console.error('Lỗi khi lấy danh sách kiểm tra:', error);
-                // Trả về mảng trống nếu có lỗi
-                return [];
-            }
+            const key = getStorageKey('checklist');
+            const savedItems = localStorage.getItem(key);
+            
+            return savedItems ? JSON.parse(savedItems) : [];
         },
         
         // Cập nhật danh sách kiểm tra
         updateItems: async function(items) {
-            try {
-                const response = await apiManager.request('/tools/checklist', 'PATCH', { items });
-                return response.data.checklist;
-            } catch (error) {
-                console.error('Lỗi khi cập nhật danh sách kiểm tra:', error);
-                throw error;
-            }
+            const key = getStorageKey('checklist');
+            localStorage.setItem(key, JSON.stringify(items));
+            
+            return { items };
+        },
+        
+        // Lấy danh sách kiểm tra cho người dùng cụ thể
+        getItemsForUser: async function(userId) {
+            const key = getKeyForUser('checklist', userId);
+            const savedItems = localStorage.getItem(key);
+            
+            return savedItems ? JSON.parse(savedItems) : [];
         }
     },
     
@@ -73,50 +100,72 @@ const toolsAPI = {
     notes: {
         // Lấy tất cả ghi chú
         getAll: async function() {
-            try {
-                const response = await apiManager.request('/tools/notes');
-                return response.data.notes || [];
-            } catch (error) {
-                console.error('Lỗi khi lấy ghi chú:', error);
-                // Trả về mảng trống nếu có lỗi
-                return [];
-            }
+            const key = getStorageKey('notes');
+            console.log("toolsAPI.notes.getAll - using key:", key);
+            const savedNotes = localStorage.getItem(key);
+            console.log("toolsAPI.notes.getAll - raw saved data:", savedNotes);
+            
+            const result = savedNotes ? JSON.parse(savedNotes) : [];
+            console.log("toolsAPI.notes.getAll - returning:", result);
+            return result;
+        },
+        
+        // Lấy ghi chú cho người dùng cụ thể
+        getAllForUser: async function(userId) {
+            const key = getKeyForUser('notes', userId);
+            const savedNotes = localStorage.getItem(key);
+            
+            return savedNotes ? JSON.parse(savedNotes) : [];
         },
         
         // Tạo ghi chú mới
         create: async function(content) {
-            try {
-                const response = await apiManager.request('/tools/notes', 'POST', { content });
-                return response.data.note;
-            } catch (error) {
-                console.error('Lỗi khi tạo ghi chú:', error);
-                throw error;
-            }
+            const key = getStorageKey('notes');
+            const notes = await this.getAll();
+            
+            const newNote = {
+                id: `note-${Date.now()}`,
+                content,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            notes.unshift(newNote);
+            localStorage.setItem(key, JSON.stringify(notes));
+            
+            return newNote;
         },
         
         // Cập nhật ghi chú
         update: async function(id, content) {
-            try {
-                const response = await apiManager.request(`/tools/notes/${id}`, 'PATCH', { content });
-                return response.data.note;
-            } catch (error) {
-                console.error('Lỗi khi cập nhật ghi chú:', error);
-                throw error;
-            }
+            const key = getStorageKey('notes');
+            const notes = await this.getAll();
+            
+            const updatedNotes = notes.map(note => {
+                if (note.id === id) {
+                    return {
+                        ...note,
+                        content,
+                        updatedAt: new Date().toISOString()
+                    };
+                }
+                return note;
+            });
+            
+            localStorage.setItem(key, JSON.stringify(updatedNotes));
+            
+            return updatedNotes.find(note => note.id === id);
         },
         
         // Xóa ghi chú
         delete: async function(id) {
-            try {
-                await apiManager.request(`/tools/notes/${id}`, 'DELETE');
-                return true;
-            } catch (error) {
-                console.error('Lỗi khi xóa ghi chú:', error);
-                throw error;
-            }
+            const key = getStorageKey('notes');
+            const notes = await this.getAll();
+            
+            const filteredNotes = notes.filter(note => note.id !== id);
+            localStorage.setItem(key, JSON.stringify(filteredNotes));
+            
+            return true;
         }
     }
 };
-
-// Thêm vào window để có thể truy cập từ các file khác
-window.toolsAPI = toolsAPI;

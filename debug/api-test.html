@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - Daily Quest Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 {
+            color: #6a4c93;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .console {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            max-height: 300px;
+            overflow: auto;
+            margin-top: 20px;
+        }
+        .console-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #6a4c93;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        button:hover {
+            background-color: #8a6cb3;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Test Tool</h1>
+    
+    <div class="container">
+        <div class="panel">
+            <h2>Thông tin người dùng</h2>
+            <button id="get-user">Lấy thông tin người dùng</button>
+            <button id="simulate-login">Giả lập đăng nhập</button>
+            <button id="simulate-logout">Giả lập đăng xuất</button>
+            <button id="clear-console">Xóa console</button>
+            
+            <h3>Kết quả:</h3>
+            <div id="user-result" class="console"></div>
+        </div>
+        
+        <div class="panel">
+            <h2>Notes API</h2>
+            <button id="get-notes">Lấy tất cả ghi chú</button>
+            <button id="add-note">Thêm ghi chú mới</button>
+            <textarea id="note-content" placeholder="Nội dung ghi chú"></textarea>
+            
+            <h3>Kết quả:</h3>
+            <div id="notes-result" class="console"></div>
+        </div>
+        
+        <div class="panel">
+            <h2>Checklist API</h2>
+            <button id="get-checklist">Lấy danh sách</button>
+            <button id="add-checklist-item">Thêm mục</button>
+            <input type="text" id="checklist-text" placeholder="Nội dung mục">
+            
+            <h3>Kết quả:</h3>
+            <div id="checklist-result" class="console"></div>
+        </div>
+    </div>
+    
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/tools-api.js"></script>
+    <script>
+        // Các hàm tiện ích
+        function logToConsole(consoleId, message, isError = false) {
+            const console = document.getElementById(consoleId);
+            const item = document.createElement('div');
+            item.className = 'console-item ' + (isError ? 'error' : 'success');
+            
+            // Định dạng message nếu là object
+            if (typeof message === 'object') {
+                try {
+                    message = JSON.stringify(message, null, 2);
+                } catch (e) {
+                    message = message.toString();
+                }
+            }
+            
+            item.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            console.prepend(item);
+        }
+        
+        // Thông tin người dùng
+        document.getElementById('get-user').addEventListener('click', function() {
+            const user = window.authManager?.getCurrentUser();
+            logToConsole('user-result', user || 'Chưa đăng nhập');
+        });
+        
+        document.getElementById('simulate-login').addEventListener('click', function() {
+            const mockUser = {
+                id: 'user-' + Date.now(),
+                username: 'Test User',
+                email: 'test@example.com',
+                token: 'mock-token',
+                isLoggedIn: true
+            };
+            
+            localStorage.setItem('daily_quest_hub_secret_key', JSON.stringify(mockUser));
+            logToConsole('user-result', 'Đã giả lập đăng nhập: ' + mockUser.username);
+            
+            // Khởi tạo dữ liệu công cụ
+            initUserTools(mockUser.id);
+            
+            // Kích hoạt sự kiện auth-state-changed
+            const event = new Event('auth-state-changed');
+            document.dispatchEvent(event);
+        });
+        
+        document.getElementById('simulate-logout').addEventListener('click', function() {
+            localStorage.removeItem('daily_quest_hub_secret_key');
+            logToConsole('user-result', 'Đã giả lập đăng xuất');
+            
+            // Kích hoạt sự kiện auth-state-changed
+            const event = new Event('auth-state-changed');
+            document.dispatchEvent(event);
+        });
+        
+        document.getElementById('clear-console').addEventListener('click', function() {
+            document.getElementById('user-result').innerHTML = '';
+            document.getElementById('notes-result').innerHTML = '';
+            document.getElementById('checklist-result').innerHTML = '';
+        });
+        
+        // Notes API
+        document.getElementById('get-notes').addEventListener('click', async function() {
+            try {
+                const notes = await window.toolsAPI.notes.getAll();
+                logToConsole('notes-result', `Lấy ${notes.length} ghi chú thành công`);
+                logToConsole('notes-result', notes);
+            } catch (error) {
+                logToConsole('notes-result', 'Lỗi: ' + error.message, true);
+            }
+        });
+        
+        document.getElementById('add-note').addEventListener('click', async function() {
+            const content = document.getElementById('note-content').value.trim();
+            if (!content) {
+                logToConsole('notes-result', 'Vui lòng nhập nội dung ghi chú', true);
+                return;
+            }
+            
+            try {
+                const newNote = await window.toolsAPI.notes.create(content);
+                logToConsole('notes-result', 'Đã thêm ghi chú thành công');
+                logToConsole('notes-result', newNote);
+            } catch (error) {
+                logToConsole('notes-result', 'Lỗi: ' + error.message, true);
+            }
+        });
+        
+        // Checklist API
+        document.getElementById('get-checklist').addEventListener('click', async function() {
+            try {
+                const items = await window.toolsAPI.checklist.getItems();
+                logToConsole('checklist-result', `Lấy ${items.length} mục thành công`);
+                logToConsole('checklist-result', items);
+            } catch (error) {
+                logToConsole('checklist-result', 'Lỗi: ' + error.message, true);
+            }
+        });
+        
+        document.getElementById('add-checklist-item').addEventListener('click', async function() {
+            const text = document.getElementById('checklist-text').value.trim();
+            if (!text) {
+                logToConsole('checklist-result', 'Vui lòng nhập nội dung mục', true);
+                return;
+            }
+            
+            try {
+                // Lấy danh sách hiện tại
+                const items = await window.toolsAPI.checklist.getItems();
+                
+                // Thêm mục mới
+                const newItem = {
+                    id: Date.now(),
+                    text: text,
+                    completed: false
+                };
+                items.push(newItem);
+                
+                // Cập nhật danh sách
+                await window.toolsAPI.checklist.updateItems(items);
+                logToConsole('checklist-result', 'Đã thêm mục thành công');
+                logToConsole('checklist-result', newItem);
+            } catch (error) {
+                logToConsole('checklist-result', 'Lỗi: ' + error.message, true);
+            }
+        });
+    </script>
+</body>
+</html> 

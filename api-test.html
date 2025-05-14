@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm tra API Daily Quest Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-height: 100px;
+            max-height: 300px;
+            overflow: auto;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .status-ok {
+            background-color: green;
+        }
+        .status-error {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kiểm tra API Daily Quest Hub</h1>
+    
+    <div class="test-section">
+        <h2>Trạng thái API</h2>
+        <div>
+            <span>API Base URL: </span>
+            <input type="text" id="api-base-url" value="http://localhost:5000/api" />
+        </div>
+        <button id="check-api">Kiểm tra kết nối API</button>
+        <div class="result" id="api-status-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Đăng ký người dùng</h2>
+        <div>
+            <input type="text" id="register-username" placeholder="Tên người dùng" />
+            <input type="email" id="register-email" placeholder="Email" />
+            <input type="password" id="register-password" placeholder="Mật khẩu" />
+            <input type="password" id="register-confirm-password" placeholder="Xác nhận mật khẩu" />
+        </div>
+        <button id="test-register">Kiểm tra đăng ký</button>
+        <div class="result" id="register-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Đăng nhập</h2>
+        <div>
+            <input type="email" id="login-email" placeholder="Email" />
+            <input type="password" id="login-password" placeholder="Mật khẩu" />
+        </div>
+        <button id="test-login">Kiểm tra đăng nhập</button>
+        <div class="result" id="login-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Xác thực token</h2>
+        <div>
+            <input type="text" id="auth-token" placeholder="JWT Token" />
+        </div>
+        <button id="test-verify-token">Kiểm tra xác thực token</button>
+        <div class="result" id="verify-token-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Lấy thông tin người dùng</h2>
+        <button id="test-get-profile">Lấy thông tin người dùng</button>
+        <div class="result" id="profile-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Danh sách API Endpoints</h2>
+        <div class="result" id="endpoints-list">
+            <h3>Người dùng</h3>
+            <ul>
+                <li><span class="status-indicator" id="endpoint-register"></span> POST /api/users/register - Đăng ký người dùng mới</li>
+                <li><span class="status-indicator" id="endpoint-login"></span> POST /api/users/login - Đăng nhập</li>
+                <li><span class="status-indicator" id="endpoint-me"></span> GET /api/users/me - Lấy thông tin người dùng hiện tại</li>
+                <li><span class="status-indicator" id="endpoint-update-me"></span> PATCH /api/users/updateMe - Cập nhật thông tin người dùng</li>
+                <li><span class="status-indicator" id="endpoint-update-password"></span> PATCH /api/users/updatePassword - Cập nhật mật khẩu</li>
+                <li><span class="status-indicator" id="endpoint-add-xp"></span> POST /api/users/addXP - Thêm XP cho người dùng</li>
+            </ul>
+            <h3>Nhiệm vụ</h3>
+            <ul>
+                <li><span class="status-indicator" id="endpoint-quests"></span> GET /api/quests - Lấy tất cả nhiệm vụ</li>
+                <li><span class="status-indicator" id="endpoint-quest-id"></span> GET /api/quests/:id - Lấy thông tin một nhiệm vụ</li>
+                <li><span class="status-indicator" id="endpoint-create-quest"></span> POST /api/quests - Tạo nhiệm vụ mới</li>
+                <li><span class="status-indicator" id="endpoint-update-quest"></span> PATCH /api/quests/:id - Cập nhật nhiệm vụ</li>
+                <li><span class="status-indicator" id="endpoint-delete-quest"></span> DELETE /api/quests/:id - Xóa nhiệm vụ</li>
+                <li><span class="status-indicator" id="endpoint-update-progress"></span> PATCH /api/quests/:id/progress - Cập nhật tiến độ nhiệm vụ</li>
+                <li><span class="status-indicator" id="endpoint-complete-quest"></span> PATCH /api/quests/:id/complete - Đánh dấu nhiệm vụ hoàn thành</li>
+            </ul>
+            <h3>Thành tích</h3>
+            <ul>
+                <li><span class="status-indicator" id="endpoint-achievements"></span> GET /api/achievements - Lấy tất cả thành tích</li>
+                <li><span class="status-indicator" id="endpoint-achievement-id"></span> GET /api/achievements/:id - Lấy thông tin một thành tích</li>
+                <li><span class="status-indicator" id="endpoint-achievements-category"></span> GET /api/achievements/category/:category - Lấy thành tích theo danh mục</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Lưu trữ token
+        let authToken = '';
+        
+        // Lấy API base URL
+        function getApiBaseUrl() {
+            return document.getElementById('api-base-url').value;
+        }
+
+        // Hiển thị kết quả
+        function displayResult(elementId, data, isSuccess = true) {
+            const resultElement = document.getElementById(elementId);
+            resultElement.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            resultElement.className = isSuccess ? 'result success' : 'result error';
+        }
+
+        // Cập nhật trạng thái endpoint
+        function updateEndpointStatus(endpointId, isAvailable) {
+            const indicator = document.getElementById(endpointId);
+            if (indicator) {
+                indicator.className = 'status-indicator ' + (isAvailable ? 'status-ok' : 'status-error');
+            }
+        }
+
+        // Kiểm tra kết nối API
+        document.getElementById('check-api').addEventListener('click', async function() {
+            try {
+                const response = await fetch(getApiBaseUrl().replace(/\/api$/, ''));
+                if (response.ok) {
+                    displayResult('api-status-result', {
+                        status: 'success',
+                        message: 'Kết nối API thành công!',
+                        details: await response.text()
+                    });
+                } else {
+                    displayResult('api-status-result', {
+                        status: 'error',
+                        message: 'Kết nối API thất bại!',
+                        statusCode: response.status,
+                        statusText: response.statusText
+                    }, false);
+                }
+            } catch (error) {
+                displayResult('api-status-result', {
+                    status: 'error',
+                    message: 'Không thể kết nối đến API!',
+                    error: error.message
+                }, false);
+            }
+        });
+
+        // Kiểm tra đăng ký
+        document.getElementById('test-register').addEventListener('click', async function() {
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+
+            if (!username || !email || !password || !confirmPassword) {
+                displayResult('register-result', {
+                    status: 'error',
+                    message: 'Vui lòng điền đầy đủ thông tin!'
+                }, false);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                displayResult('register-result', {
+                    status: 'error',
+                    message: 'Mật khẩu xác nhận không khớp!'
+                }, false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${getApiBaseUrl()}/users/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password, confirmPassword })
+                });
+
+                const data = await response.json();
+                displayResult('register-result', data, response.ok);
+                updateEndpointStatus('endpoint-register', response.ok);
+
+                if (response.ok && data.token) {
+                    authToken = data.token;
+                    document.getElementById('auth-token').value = authToken;
+                }
+            } catch (error) {
+                displayResult('register-result', {
+                    status: 'error',
+                    message: 'Lỗi khi gửi yêu cầu đăng ký!',
+                    error: error.message
+                }, false);
+                updateEndpointStatus('endpoint-register', false);
+            }
+        });
+
+        // Kiểm tra đăng nhập
+        document.getElementById('test-login').addEventListener('click', async function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                displayResult('login-result', {
+                    status: 'error',
+                    message: 'Vui lòng điền đầy đủ thông tin!'
+                }, false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${getApiBaseUrl()}/users/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                displayResult('login-result', data, response.ok);
+                updateEndpointStatus('endpoint-login', response.ok);
+
+                if (response.ok && data.token) {
+                    authToken = data.token;
+                    document.getElementById('auth-token').value = authToken;
+                }
+            } catch (error) {
+                displayResult('login-result', {
+                    status: 'error',
+                    message: 'Lỗi khi gửi yêu cầu đăng nhập!',
+                    error: error.message
+                }, false);
+                updateEndpointStatus('endpoint-login', false);
+            }
+        });
+
+        // Kiểm tra xác thực token
+        document.getElementById('test-verify-token').addEventListener('click', async function() {
+            const token = document.getElementById('auth-token').value || authToken;
+
+            if (!token) {
+                displayResult('verify-token-result', {
+                    status: 'error',
+                    message: 'Không có token để xác thực!'
+                }, false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${getApiBaseUrl()}/users/me`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                displayResult('verify-token-result', data, response.ok);
+                updateEndpointStatus('endpoint-me', response.ok);
+            } catch (error) {
+                displayResult('verify-token-result', {
+                    status: 'error',
+                    message: 'Lỗi khi xác thực token!',
+                    error: error.message
+                }, false);
+                updateEndpointStatus('endpoint-me', false);
+            }
+        });
+
+        // Lấy thông tin người dùng
+        document.getElementById('test-get-profile').addEventListener('click', async function() {
+            const token = document.getElementById('auth-token').value || authToken;
+
+            if (!token) {
+                displayResult('profile-result', {
+                    status: 'error',
+                    message: 'Không có token để xác thực!'
+                }, false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${getApiBaseUrl()}/users/me`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                displayResult('profile-result', data, response.ok);
+                updateEndpointStatus('endpoint-me', response.ok);
+            } catch (error) {
+                displayResult('profile-result', {
+                    status: 'error',
+                    message: 'Lỗi khi lấy thông tin người dùng!',
+                    error: error.message
+                }, false);
+                updateEndpointStatus('endpoint-me', false);
+            }
+        });
+
+        // Kiểm tra tất cả các endpoint khi trang được tải
+        window.addEventListener('load', function() {
+            document.getElementById('check-api').click();
+        });
+    </script>
+</body>
+</html>

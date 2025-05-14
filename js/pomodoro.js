@@ -7,6 +7,8 @@ class PomodoroTimer {
         this.isWorkMode = true;
         this.timerInterval = null;
         this.totalTime = this.workTime;
+        this.completedSessions = 0;
+        this.currentUserId = null;
 
         // DOM elements
         this.display = document.getElementById('timer-display');
@@ -19,10 +21,187 @@ class PomodoroTimer {
         this.breakModeBtn = document.getElementById('break-mode');
         this.container = document.getElementById('pomodoro-container');
 
+        this.addStyles();
         this.initializeEventListeners();
-        this.updateDisplay();
+        this.loadSettings();
+        
+        // Thêm lắng nghe sự kiện khi localStorage thay đổi để phát hiện đăng nhập/đăng xuất
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'daily_quest_hub_secret_key') {
+                // Kiểm tra thay đổi người dùng
+                const newUserId = window.authManager?.getCurrentUser()?.id || 'anonymous';
+                if (this.currentUserId !== newUserId) {
+                    this.currentUserId = newUserId;
+                    this.loadSettings();
+                }
+            }
+        });
+        
+        // Kiểm tra người dùng hiện tại
+        this.currentUserId = window.authManager?.getCurrentUser()?.id || 'anonymous';
     }
 
+    addStyles() {
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+            .pomodoro-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            
+            .timer-mode {
+                display: flex;
+                margin-bottom: 15px;
+            }
+            
+            .mode-btn {
+                padding: 8px 16px;
+                border: none;
+                background-color: #e0d0f7;
+                color: #6a4c93;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                border-radius: 20px;
+                margin: 0 5px;
+                font-weight: 500;
+            }
+            
+            .mode-btn.active {
+                background-color: #6a4c93;
+                color: white;
+            }
+            
+            .timer-display {
+                font-size: 3.5rem;
+                font-weight: bold;
+                color: #6a4c93;
+                margin: 15px 0;
+                font-family: 'Courier New', monospace;
+                letter-spacing: 2px;
+            }
+            
+            .timer-progress {
+                width: 100%;
+                height: 6px;
+                background-color: #e0d0f7;
+                border-radius: 3px;
+                margin: 10px 0;
+                overflow: hidden;
+            }
+            
+            .progress-bar {
+                height: 100%;
+                background-color: #6a4c93;
+                width: 0%;
+                transition: width 1s linear;
+            }
+            
+            .timer-status {
+                font-size: 1.1rem;
+                color: #666;
+                margin-bottom: 15px;
+            }
+            
+            .timer-controls {
+                display: flex;
+                gap: 10px;
+                margin-top: 15px;
+            }
+            
+            .timer-active {
+                animation: pulse 2s infinite;
+            }
+            
+            @keyframes pulse {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(106, 76, 147, 0.4);
+                }
+                70% {
+                    box-shadow: 0 0 0 10px rgba(106, 76, 147, 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgba(106, 76, 147, 0);
+                }
+            }
+        `;
+        document.head.appendChild(styleElement);
+    }
+
+    async loadSettings() {
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        const currentUser = window.authManager?.getCurrentUser();
+        
+        if (currentUser && window.toolsAPI) {
+            try {
+                // Lấy cài đặt từ API
+                const settings = await window.toolsAPI.pomodoro.getSettings();
+                
+                // Cập nhật cài đặt
+                this.workTime = settings.workTime || this.workTime;
+                this.breakTime = settings.breakTime || this.breakTime;
+                this.completedSessions = settings.completedSessions || 0;
+                
+                // Cập nhật thời gian còn lại dựa trên chế độ hiện tại
+                this.timeLeft = this.isWorkMode ? this.workTime : this.breakTime;
+                this.totalTime = this.timeLeft;
+                
+                // Cập nhật currentUserId
+                this.currentUserId = currentUser.id;
+            } catch (error) {
+                console.error('Không thể tải cài đặt Pomodoro:', error);
+            }
+        } else {
+            // Đặt lại giá trị mặc định nếu không đăng nhập
+            this.workTime = 25 * 60;
+            this.breakTime = 5 * 60;
+            this.completedSessions = 0;
+            this.timeLeft = this.isWorkMode ? this.workTime : this.breakTime;
+            this.totalTime = this.timeLeft;
+            this.currentUserId = 'anonymous';
+        }
+        
+        this.updateDisplay();
+    }
+    
+    async saveSettings() {
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        const currentUser = window.authManager?.getCurrentUser();
+        
+        if (currentUser && window.toolsAPI) {
+            try {
+                // Lưu cài đặt qua API
+                await window.toolsAPI.pomodoro.updateSettings({
+                    workTime: this.workTime,
+                    breakTime: this.breakTime
+                });
+            } catch (error) {
+                console.error('Không thể lưu cài đặt Pomodoro:', error);
+            }
+        }
+    }
+    
+    async incrementCompletedSessions() {
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        const currentUser = window.authManager?.getCurrentUser();
+        
+        if (currentUser && window.toolsAPI) {
+            try {
+                // Tăng số phiên đã hoàn thành qua API
+                const result = await window.toolsAPI.pomodoro.incrementSessions();
+                this.completedSessions = result.completedSessions;
+            } catch (error) {
+                console.error('Không thể cập nhật số phiên Pomodoro:', error);
+                // Tăng số phiên cục bộ nếu API thất bại
+                this.completedSessions++;
+            }
+        } else {
+            // Tăng số phiên cục bộ nếu không đăng nhập
+            this.completedSessions++;
+        }
+    }
+    
     initializeEventListeners() {
         this.startBtn.addEventListener('click', () => this.start());
         this.pauseBtn.addEventListener('click', () => this.pause());
@@ -64,6 +243,12 @@ class PomodoroTimer {
             this.updateDisplay();
         } else {
             this.playAlarm();
+            
+            // Nếu kết thúc một phiên làm việc, tăng số phiên đã hoàn thành
+            if (this.isWorkMode) {
+                this.incrementCompletedSessions();
+            }
+            
             this.switchMode(!this.isWorkMode);
         }
     }
@@ -119,4 +304,9 @@ class PomodoroTimer {
 // Initialize timer when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     const timer = new PomodoroTimer();
-}); 
+    
+    // Thêm lắng nghe sự kiện khi đăng nhập/đăng xuất thay đổi
+    document.addEventListener('auth-state-changed', () => {
+        timer.loadSettings();
+    });
+});

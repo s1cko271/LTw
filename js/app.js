@@ -2,15 +2,15 @@
 let quests = [];
 let xpPoints = 0;
 
-// Hàm tải dữ liệu từ API
-async function loadData() {
+// Hàm tải dữ liệu từ localStorage
+function loadData() {
     try {
         // Kiểm tra đăng nhập
-        const user = await authManager.initUser();
+        const user = window.authManager.getCurrentUser();
         if (!user) return;
         
         // Tải danh sách nhiệm vụ
-        quests = await apiManager.quest.getAll();
+        quests = user.quests || [];
         
         // Cập nhật XP từ thông tin người dùng
         xpPoints = user.xp || 0;
@@ -50,7 +50,7 @@ function createQuestElement(quest) {
     if (quest.completed) {
         questEl.classList.add('completed');
     }
-    questEl.dataset.id = quest._id || quest.id; // Sử dụng _id từ MongoDB hoặc id nếu có
+    questEl.dataset.id = quest.id; // Sử dụng id cho tất cả các nhiệm vụ
     
     // Xác định XP dựa trên độ khó
     let xpValue = 10;
@@ -155,7 +155,7 @@ function renderQuests(filter = 'all') {
 }
 
 // Thêm nhiệm vụ mới
-async function addQuest(e) {
+function addQuest(e) {
     e.preventDefault();
     
     const titleInput = document.getElementById('quest-title');
@@ -171,21 +171,30 @@ async function addQuest(e) {
     };
     
     try {
-        // Gọi API để tạo nhiệm vụ mới
-        const newQuest = await apiManager.quest.create(questData);
+        // Kiểm tra đăng nhập
+        const user = window.authManager.getCurrentUser();
+        if (!user) {
+            showNotification('Vui lòng đăng nhập để thêm nhiệm vụ!');
+            return;
+        }
         
-        // Thêm vào mảng nhiệm vụ
-        quests.push(newQuest);
+        // Thêm nhiệm vụ mới bằng authManager
+        const newQuest = window.authManager.addQuest(questData);
         
-        // Reset form
-        questForm.reset();
-        
-        // Cập nhật UI
-        renderQuests(getCurrentFilter());
-        updateStats();
-        
-        // Hiệu ứng thông báo
-        showNotification('Nhiệm vụ mới đã được thêm!');
+        if (newQuest) {
+            // Thêm vào mảng nhiệm vụ
+            quests.push(newQuest);
+            
+            // Reset form
+            questForm.reset();
+            
+            // Cập nhật UI
+            renderQuests(getCurrentFilter());
+            updateStats();
+            
+            // Hiệu ứng thông báo
+            showNotification('Nhiệm vụ mới đã được thêm!');
+        }
     } catch (error) {
         console.error('Lỗi khi tạo nhiệm vụ:', error);
         showNotification('Không thể tạo nhiệm vụ: ' + (error.message || 'Lỗi không xác định'));
@@ -193,27 +202,39 @@ async function addQuest(e) {
 }
 
 // Hoàn thành nhiệm vụ
-async function completeQuest(id) {
+function completeQuest(id) {
     try {
-        // Gọi API để đánh dấu nhiệm vụ hoàn thành
-        const result = await apiManager.quest.complete(id);
+        // Kiểm tra đăng nhập
+        const user = window.authManager.getCurrentUser();
+        if (!user) {
+            showNotification('Vui lòng đăng nhập để hoàn thành nhiệm vụ!');
+            return;
+        }
         
-        // Tìm nhiệm vụ trong mảng
-        const questIndex = quests.findIndex(q => q._id === id);
+        // Đánh dấu nhiệm vụ hoàn thành bằng authManager
+        const updatedQuest = window.authManager.completeQuest(id);
         
-        if (questIndex !== -1) {
-            // Cập nhật thông tin nhiệm vụ
-            quests[questIndex] = result.quest;
+        if (updatedQuest) {
+            // Cập nhật mảng nhiệm vụ
+            const questIndex = quests.findIndex(q => q.id === id);
+            if (questIndex !== -1) {
+                quests[questIndex] = updatedQuest;
+            }
             
-            // Cập nhật XP
-            xpPoints = result.user.xp;
+            // Tính XP dựa vào độ khó
+            let xpValue = 10;
+            if (updatedQuest.difficulty === 'medium') xpValue = 20;
+            if (updatedQuest.difficulty === 'hard') xpValue = 30;
+            
+            // Cập nhật xpPoints
+            xpPoints += xpValue;
             
             // Cập nhật UI
             renderQuests(getCurrentFilter());
             updateStats();
             
             // Hiệu ứng thông báo
-            showNotification(`Nhiệm vụ hoàn thành! +${result.xpEarned} XP`);
+            showNotification(`Nhiệm vụ hoàn thành! + ${xpValue} XP`);
         }
     } catch (error) {
         console.error('Lỗi khi hoàn thành nhiệm vụ:', error);
@@ -222,25 +243,33 @@ async function completeQuest(id) {
 }
 
 // Xóa nhiệm vụ
-async function deleteQuest(id) {
+function deleteQuest(id) {
+    if (!confirm('Bạn có chắc chắn muốn xóa nhiệm vụ này?')) {
+        return;
+    }
+    
     try {
-        // Xác nhận xóa
-        if (!confirm('Bạn có chắc chắn muốn xóa nhiệm vụ này?')) {
+        // Kiểm tra đăng nhập
+        const user = window.authManager.getCurrentUser();
+        if (!user) {
+            showNotification('Vui lòng đăng nhập để xóa nhiệm vụ!');
             return;
         }
         
-        // Gọi API để xóa nhiệm vụ
-        await apiManager.quest.delete(id);
+        // Xóa nhiệm vụ bằng authManager
+        const success = window.authManager.deleteQuest(id);
         
-        // Xóa nhiệm vụ khỏi mảng
-        quests = quests.filter(quest => quest._id !== id);
-        
-        // Cập nhật UI
-        renderQuests(getCurrentFilter());
-        updateStats();
-        
-        // Hiệu ứng thông báo
-        showNotification('Nhiệm vụ đã bị xóa!');
+        if (success) {
+            // Xóa nhiệm vụ khỏi mảng
+            quests = quests.filter(quest => quest.id !== id);
+            
+            // Cập nhật UI
+            renderQuests(getCurrentFilter());
+            updateStats();
+            
+            // Hiệu ứng thông báo
+            showNotification('Nhiệm vụ đã bị xóa!');
+        }
     } catch (error) {
         console.error('Lỗi khi xóa nhiệm vụ:', error);
         showNotification('Không thể xóa nhiệm vụ: ' + (error.message || 'Lỗi không xác định'));
@@ -275,28 +304,39 @@ function getCurrentFilter() {
     return activeFilter ? activeFilter.dataset.filter : 'all';
 }
 
-// Sự kiện
-questForm.addEventListener('submit', addQuest);
-
-// Sự kiện cho các nút lọc
-filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Xóa class active từ tất cả các nút
-        filterButtons.forEach(b => b.classList.remove('active'));
-        // Thêm class active cho nút được click
-        btn.classList.add('active');
-        // Render lại danh sách với bộ lọc mới
-        renderQuests(btn.dataset.filter);
-    });
-});
-
 // Khởi tạo ứng dụng
 function initApp() {
-    // Tải dữ liệu từ API
-    loadData();
+    // Kiểm tra xem trang có phải là tasks.html không
+    const isTasksPage = document.getElementById('quests-container') !== null;
+    
+    if (isTasksPage) {
+        // Gắn sự kiện cho form
+        if (questForm) {
+            questForm.addEventListener('submit', addQuest);
+        }
+        
+        // Gắn sự kiện cho nút lọc
+        if (filterButtons) {
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Xóa class active từ tất cả các nút
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Thêm class active cho nút được nhấn
+                    btn.classList.add('active');
+                    
+                    // Lọc danh sách nhiệm vụ
+                    renderQuests(btn.dataset.filter);
+                });
+            });
+        }
+        
+        // Tải dữ liệu từ API
+        loadData();
+    }
 }
 
-// Chạy ứng dụng khi trang được tải
+// Chạy khi trang được tải
 document.addEventListener('DOMContentLoaded', initApp);
 
 // Thêm CSS cho thông báo

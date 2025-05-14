@@ -118,7 +118,7 @@
         @media (max-width: 1100px) {
             .tools-dashboard {
                 flex-direction: column;
-                align-items: center;
+            align-items: center;
             }
             .tool-card {
                 min-width: 90vw;
@@ -150,6 +150,8 @@
                 <a href="info.html">Thông tin</a>
                 <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
                 <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
+                <a href="login.html" id="login-link">Đăng nhập</a>
+                <a href="register.html" id="register-link">Đăng ký</a>
             </div>
         </div>
     </nav>
@@ -174,8 +176,8 @@
                     
                     <div class="timer-progress">
                         <div id="progress-bar" class="progress-bar"></div>
-                    </div>
-                    
+            </div>
+            
                     <div id="timer-status" class="timer-status">Thời gian làm việc</div>
                     
                     <div class="timer-controls">
@@ -240,104 +242,18 @@
             <p>&copy; 2025 Daily Quest Hub</p>
         </footer>
     </div>
+    <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/tools-api.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Kiểm tra trạng thái đăng nhập và cập nhật UI
-            const currentUser = window.authManager.getCurrentUser();
-            const profileLink = document.getElementById('profile-link');
-            const logoutLink = document.getElementById('logout-link');
-            
-            if (currentUser) {
-                // Người dùng đã đăng nhập
-                profileLink.style.display = 'inline-block';
-                logoutLink.style.display = 'inline-block';
-            } else {
-                // Người dùng chưa đăng nhập
-                profileLink.style.display = 'none';
-                logoutLink.style.display = 'none';
-            }
-            
-            // Xử lý sự kiện đăng xuất
-            logoutLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.authManager.handleLogout();
-            });
-            
-            // Khởi tạo Pomodoro Timer
-            initPomodoroTimer();
-            
-            // Khởi tạo Danh sách kiểm tra nhanh
-            initQuickChecklist();
-            
-            // Khởi tạo Ghi chú nhanh
-            initQuickNotes();
-            
-            // Khởi tạo Theo dõi thói quen
-            initHabitTracker();
+            // Không cần code ở đây vì đã được xử lý trong các file JS tương ứng
         });
-        
-        // Pomodoro Timer logic
-        let pomodoroTime = 25 * 60;
-        let pomodoroInterval = null;
-        function updatePomodoroDisplay() {
-            const min = String(Math.floor(pomodoroTime / 60)).padStart(2, '0');
-            const sec = String(pomodoroTime % 60).padStart(2, '0');
-            document.getElementById('pomodoro-timer').textContent = `${min}:${sec}`;
-        }
-        function startPomodoro() {
-            if (pomodoroInterval) return;
-            pomodoroInterval = setInterval(() => {
-                if (pomodoroTime > 0) {
-                    pomodoroTime--;
-                    updatePomodoroDisplay();
-                } else {
-                    clearInterval(pomodoroInterval);
-                    pomodoroInterval = null;
-                    alert('Hết thời gian!');
-                }
-            }, 1000);
-        }
-        function pausePomodoro() {
-            clearInterval(pomodoroInterval);
-            pomodoroInterval = null;
-        }
-        function resetPomodoro() {
-            pomodoroTime = 25 * 60;
-            updatePomodoroDisplay();
-            pausePomodoro();
-        }
-        updatePomodoroDisplay();
-        // Quick Checklist logic
-        function addQuickCheck() {
-            const input = document.getElementById('quick-check-input');
-            const value = input.value.trim();
-            if (!value) return;
-            const ul = document.getElementById('quick-check-list');
-            const li = document.createElement('li');
-            li.textContent = value;
-            ul.appendChild(li);
-            input.value = '';
-        }
-        // Quick Note logic
-        function saveQuickNote() {
-            const note = document.getElementById('quick-note').value;
-            localStorage.setItem('quick-note', note);
-            alert('Đã lưu ghi chú!');
-        }
-        function clearQuickNote() {
-            document.getElementById('quick-note').value = '';
-            localStorage.removeItem('quick-note');
-        }
-        // Load note on page load
-        document.getElementById('quick-note').value = localStorage.getItem('quick-note') || '';
     </script>
-    <link rel="stylesheet" href="css/pomodoro.css">
     <script src="js/pomodoro.js"></script>
-    <link rel="stylesheet" href="css/quick-checklist.css">
     <script src="js/quick-checklist.js"></script>
-    <link rel="stylesheet" href="css/quick-notes.css">
     <script src="js/quick-notes.js"></script>
 </body>
 </html>

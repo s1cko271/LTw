@@ -160,6 +160,12 @@
             border-radius: 5px;
             background-color: #f9f9f9;
             margin-bottom: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .achievement-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(106, 76, 147, 0.2);
         }
         
         .achievement-icon {
@@ -183,6 +189,30 @@
         .achievement-info p {
             color: #777;
             font-size: 0.9rem;
+        }
+        
+        .achievement-info small {
+            display: block;
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .achievement-item.new {
+            background: linear-gradient(to right, #f9f9f9, #f0e6ff);
+            border-left: 3px solid #6a4c93;
+        }
+        
+        .achievement-item.new::after {
+            content: 'MỚI';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #6a4c93;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
         }
         
         .recent-quest-item {
@@ -217,6 +247,17 @@
             background-color: #6a4c93;
             border-radius: 5px;
         }
+        
+        .no-data-message {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -232,8 +273,10 @@
                 <a href="stats.html">Thống kê</a>
                 <a href="tools.html">Công cụ</a>
                 <a href="info.html">Thông tin</a>
-                <a href="profile.html" class="active">Hồ sơ</a>
+                <a href="profile.html" id="profile-link" class="active" style="display: none;">Hồ sơ</a>
                 <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
+                <a href="login.html" id="login-link">Đăng nhập</a>
+                <a href="register.html" id="register-link">Đăng ký</a>
             </div>
         </div>
     </nav>
@@ -267,7 +310,7 @@
                 </div>
                 
                 <div class="profile-actions">
-                    <button id="edit-profile-btn"><i class="fas fa-edit"></i> Chỉnh sửa hồ sơ</button>
+                    <button id="edit-profile-btn"><i class="fas fa-pencil-alt"></i> Chỉnh sửa hồ sơ</button>
                     <button class="logout" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
                 </div>
             </div>
@@ -285,6 +328,46 @@
                     <p>XP hiện tại: <span id="current-xp">0</span>/<span id="next-level-xp">100</span></p>
                     <div class="progress-bar">
                         <div class="progress" id="xp-progress" style="width: 0%"></div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px">Thành tích nổi bật</h3>
+                    <div class="achievements-summary" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                        <div class="achievement-badge" style="width: 80px; text-align: center;">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #6a4c93; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 5px;">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <span style="font-size: 0.8rem; color: #777;">Người mới</span>
+                        </div>
+                        <div class="achievement-badge" style="width: 80px; text-align: center;">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #6a4c93; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 5px;">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <span style="font-size: 0.8rem; color: #777;">Siêng năng</span>
+                        </div>
+                        <div class="achievement-badge" style="width: 80px; text-align: center;">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #4caf50; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 5px;">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <span style="font-size: 0.8rem; color: #777;">Thói quen tốt</span>
+                        </div>
+                        <div class="achievement-badge" style="width: 80px; text-align: center;">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #ff9800; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 5px;">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <span style="font-size: 0.8rem; color: #777;">Cao thủ</span>
+                        </div>
+                        <div class="achievement-badge" style="width: 80px; text-align: center;">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #2196f3; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 5px;">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <span style="font-size: 0.8rem; color: #777;">Kỳ thủ</span>
+                        </div>
+                        <div class="achievement-badge" style="width: 80px; text-align: center;">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #e91e63; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 5px;">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <span style="font-size: 0.8rem; color: #777;">Bậc thầy</span>
+                        </div>
                     </div>
                     
                     <h3 style="margin-top: 30px">Nhiệm vụ gần đây</h3>
@@ -314,39 +397,51 @@
                     <form id="settings-form">
                         <div class="form-group">
                             <label>Ảnh đại diện:</label>
-                            <div style="margin-bottom: 15px;">
-                                <img id="avatar-preview" src="" alt="Ảnh đại diện" style="display: none; max-width: 100px; max-height: 100px; border-radius: 50%; margin-bottom: 10px;">
-                                <input type="file" id="avatar-upload" accept="image/*">
-                                <p style="font-size: 0.85rem; color: #777; margin-top: 5px;">Chọn ảnh có kích thước dưới 2MB. Định dạng hỗ trợ: JPG, PNG, GIF.</p>
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #f0f0f0; overflow: hidden; margin-right: 20px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 2rem;">
+                                    <img id="avatar-preview" src="" alt="Ảnh đại diện" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                                    <i class="fas fa-user" id="avatar-placeholder"></i>
+                                </div>
+                                <div style="flex: 1;">
+                                    <label for="avatar-upload" style="display: inline-block; padding: 8px 15px; background-color: #6a4c93; color: white; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; margin-bottom: 10px;">
+                                        <i class="fas fa-upload"></i> Chọn ảnh
+                                    </label>
+                                    <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                                    <div style="font-size: 0.85rem; color: #777; margin-top: 5px;">Chọn ảnh có kích thước dưới 2MB. Định dạng hỗ trợ: JPG, PNG, GIF.</div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="settings-username">Tên người dùng:</label>
-                            <input type="text" id="settings-username" required>
+                            <label for="settings-username" style="display: block; font-weight: 500; margin-bottom: 8px; color: #444;">Tên người dùng:</label>
+                            <input type="text" id="settings-username" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; transition: border-color 0.3s ease;">
                         </div>
                         
                         <div class="form-group">
-                            <label for="settings-email">Email:</label>
-                            <input type="email" id="settings-email" required>
+                            <label for="settings-email" style="display: block; font-weight: 500; margin-bottom: 8px; color: #444;">Email:</label>
+                            <input type="email" id="settings-email" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; transition: border-color 0.3s ease;">
                         </div>
                         
                         <div class="form-group">
-                            <label for="settings-bio">Tiểu sử:</label>
-                            <textarea id="settings-bio" rows="3" placeholder="Giới thiệu ngắn về bạn..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                            <label for="settings-bio" style="display: block; font-weight: 500; margin-bottom: 8px; color: #444;">Tiểu sử:</label>
+                            <textarea id="settings-bio" rows="3" placeholder="Giới thiệu ngắn về bạn..." style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; transition: border-color 0.3s ease;"></textarea>
+                            <div style="font-size: 0.85rem; color: #777; margin-top: 5px;">Tiểu sử sẽ được hiển thị trong hồ sơ của bạn</div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="settings-password">Mật khẩu mới (để trống nếu không thay đổi):</label>
-                            <input type="password" id="settings-password">
+                            <label for="settings-password" style="display: block; font-weight: 500; margin-bottom: 8px; color: #444;">Mật khẩu mới (để trống nếu không thay đổi):</label>
+                            <input type="password" id="settings-password" style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; transition: border-color 0.3s ease;">
+                            <div style="font-size: 0.85rem; color: #777; margin-top: 5px;">Mật khẩu phải có ít nhất 6 ký tự</div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="settings-confirm-password">Xác nhận mật khẩu mới:</label>
-                            <input type="password" id="settings-confirm-password">
+                            <label for="settings-confirm-password" style="display: block; font-weight: 500; margin-bottom: 8px; color: #444;">Xác nhận mật khẩu mới:</label>
+                            <input type="password" id="settings-confirm-password" style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; transition: border-color 0.3s ease;">
                         </div>
                         
-                        <button type="submit" class="btn-add">Lưu thay đổi</button>
+                        <button type="submit" class="btn-add" style="padding: 10px 20px; background-color: #6a4c93; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s;">
+                            <i class="fas fa-save"></i> Lưu thay đổi
+                        </button>
                     </form>
                 </div>
             </div>
@@ -357,6 +452,7 @@
         <p>&copy; 2025 Daily Quest Hub</p>
     </footer>
 
+    <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/profile.js"></script>

@@ -141,7 +141,7 @@ exports.updateMe = async (req, res) => {
 
     // Lọc các trường không được phép cập nhật
     const filteredBody = {};
-    const allowedFields = ['username', 'email'];
+    const allowedFields = ['username', 'email', 'bio', 'avatar'];
     
     Object.keys(req.body).forEach(field => {
       if (allowedFields.includes(field)) {

@@ -8,6 +8,12 @@ const questRoutes = require('./routes/questRoutes');
 const achievementRoutes = require('./routes/achievementRoutes');
 const toolRoutes = require('./routes/toolRoutes');
 
+// Thiết lập biến môi trường nếu không tìm thấy .env
+if (!process.env.JWT_SECRET) {
+  process.env.JWT_SECRET = 'daily_quest_hub_secret_key';
+  process.env.JWT_EXPIRES_IN = '90d';
+}
+
 // Khởi tạo Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,8 +22,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Chuỗi kết nối MongoDB Atlas cố định
+const MONGODB_URI = 'mongodb+srv://bp27:bp2712003@cluster0.2a6pk6a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
 // Kết nối MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/daily-quest-hub', {
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

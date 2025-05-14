@@ -24,6 +24,18 @@ Daily Quest Hub là một trang web đơn giản giúp người dùng quản lý
 4. Xóa nhiệm vụ bằng cách nhấn vào biểu tượng thùng rác
 5. Lọc danh sách nhiệm vụ bằng cách sử dụng các nút lọc (Tất cả, Đang chờ, Hoàn thành)
 
+## Cách chạy frontend dễ dàng
+
+1. Cài đặt các gói cần thiết (chỉ cần làm 1 lần):
+   ```bash
+   npm install
+   ```
+2. Chạy frontend bằng lệnh:
+   ```bash
+   npm run frontend
+   ```
+3. Truy cập vào địa chỉ: http://localhost:3000
+
 ## Kế hoạch phát triển
 
 - **Tuần 1-2**: Xây dựng giao diện dashboard và form nhiệm vụ (Hoàn thành)

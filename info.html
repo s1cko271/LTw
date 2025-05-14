@@ -148,13 +148,12 @@
             </div>
             <div class="nav-links">
                 <a href="index.html">Trang chủ</a>
+                <a href="tasks.html">Nhiệm vụ</a>
                 <a href="guide.html">Hướng dẫn</a>
                 <a href="stats.html">Thống kê</a>
                 <a href="tools.html">Công cụ</a>
                 <a href="info.html" class="active">Thông tin</a>
                 <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
-                <a href="login.html" id="login-link">Đăng nhập</a>
-                <a href="register.html" id="register-link">Đăng ký</a>
                 <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
             </div>
         </div>
@@ -250,35 +249,6 @@
     </div>
 
     <script src="js/auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Kiểm tra trạng thái đăng nhập và cập nhật UI
-            const currentUser = window.authManager.getCurrentUser();
-            const profileLink = document.getElementById('profile-link');
-            const loginLink = document.getElementById('login-link');
-            const registerLink = document.getElementById('register-link');
-            const logoutLink = document.getElementById('logout-link');
-            
-            if (currentUser) {
-                // Người dùng đã đăng nhập
-                profileLink.style.display = 'inline-block';
-                logoutLink.style.display = 'inline-block';
-                loginLink.style.display = 'none';
-                registerLink.style.display = 'none';
-            } else {
-                // Người dùng chưa đăng nhập
-                profileLink.style.display = 'none';
-                logoutLink.style.display = 'none';
-                loginLink.style.display = 'inline-block';
-                registerLink.style.display = 'inline-block';
-            }
-            
-            // Xử lý sự kiện đăng xuất
-            logoutLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.authManager.handleLogout();
-            });
-        });
-    </script>
+    <script src="js/navbar.js"></script>
 </body>
 </html>

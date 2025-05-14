@@ -4,7 +4,8 @@
   "description": "Ứng dụng Daily Quest Hub",
   "scripts": {
     "start": "cd backend && npm start",
-    "dev": "cd backend && npm run dev"
+    "dev": "cd backend && npm run dev",
+    "frontend": "serve . -l 3000"
   },
   "dependencies": {
     "mongodb": "^6.16.0"

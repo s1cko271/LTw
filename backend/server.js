@@ -6,6 +6,7 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const questRoutes = require('./routes/questRoutes');
 const achievementRoutes = require('./routes/achievementRoutes');
+const toolRoutes = require('./routes/toolRoutes');
 
 // Khởi tạo Express app
 const app = express();
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/daily-que
 app.use('/api/users', userRoutes);
 app.use('/api/quests', questRoutes);
 app.use('/api/achievements', achievementRoutes);
+app.use('/api/tools', toolRoutes);
 
 // Route mặc định
 app.get('/', (req, res) => {

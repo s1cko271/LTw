@@ -1,0 +1,124 @@
+/* Quick Checklist Styles */
+.quick-checklist {
+    width: 100%;
+    margin-top: 16px;
+}
+
+.checklist-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0d0f7;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: #f8f6fc;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.checklist-input:focus {
+    outline: none;
+    border-color: #6a4c93;
+    box-shadow: 0 0 0 3px rgba(106,76,147,0.1);
+}
+
+.checklist-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(106,76,147,0.05);
+    transition: all 0.3s ease;
+}
+
+.checklist-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(106,76,147,0.1);
+}
+
+.checklist-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a4c93;
+    border-radius: 6px;
+    margin-right: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.checklist-checkbox:checked {
+    background: #6a4c93;
+}
+
+.checklist-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checklist-text {
+    flex: 1;
+    font-size: 1rem;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+}
+
+.checklist-item.completed .checklist-text {
+    text-decoration: line-through;
+    color: #95a5a6;
+}
+
+.delete-item {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.checklist-item:hover .delete-item {
+    opacity: 1;
+}
+
+.delete-item:hover {
+    background: rgba(231,76,60,0.1);
+}
+
+/* Scrollbar styling */
+.checklist-items::-webkit-scrollbar {
+    width: 8px;
+}
+
+.checklist-items::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.checklist-items::-webkit-scrollbar-thumb {
+    background: #c5b3e6;
+    border-radius: 4px;
+}
+
+.checklist-items::-webkit-scrollbar-thumb:hover {
+    background: #6a4c93;
+} 

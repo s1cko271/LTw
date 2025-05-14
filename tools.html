@@ -8,223 +8,129 @@
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .tools-container {
-            max-width: 900px;
-            margin: 30px auto;
+        body {
+            background: linear-gradient(135deg, #f3e9ff 0%, #f8fafc 100%);
+        }
+        .tools-dashboard {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .tool-card {
-            flex: 1 1 calc(50% - 20px);
-            min-width: 300px;
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .tool-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .tool-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #6a4c93;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
+            gap: 32px;
             justify-content: center;
-            margin-right: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .tool-title {
-            margin: 0;
-            color: #333;
-        }
-        
-        .tool-content {
-            margin-bottom: 15px;
-        }
-        
-        .tool-controls {
-            display: flex;
+            margin: 48px 0 32px 0;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
         }
-        
-        .tool-controls button {
-            padding: 8px 15px;
-            background-color: #6a4c93;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        .tool-card {
+            background: linear-gradient(135deg, #fff 60%, #f3e9ff 100%);
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(106,76,147,0.08), 0 1.5px 4px rgba(106,76,147,0.04);
+            padding: 36px 32px 28px 32px;
+            text-align: center;
+            min-width: 290px;
+            max-width: 340px;
+            flex: 1 1 320px;
+            transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s cubic-bezier(.4,0,.2,1);
+            position: relative;
+            margin-bottom: 24px;
         }
-        
-        .tool-controls button:hover {
-            background-color: #5a3d83;
+        .tool-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 32px rgba(106,76,147,0.13), 0 2px 8px rgba(106,76,147,0.07);
         }
-        
-        .tool-controls input {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            flex: 1;
+        .tool-icon {
+            font-size: 3.2rem;
+            color: #6a4c93;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 2px 8px #e0d0f7);
         }
-        
-        /* Pomodoro Timer Styles */
+        .tool-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            letter-spacing: 0.5px;
+        }
+        .tool-desc {
+            color: #7b6b8a;
+            font-size: 1rem;
+            margin-bottom: 18px;
+        }
         .timer-display {
             font-size: 2.5rem;
             font-weight: bold;
-            text-align: center;
-            margin: 20px 0;
-            color: #333;
+            margin: 18px 0 12px 0;
+            color: #6a4c93;
+            letter-spacing: 2px;
         }
-        
-        .timer-mode {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        
-        .timer-mode button {
-            padding: 8px 15px;
-            background-color: #f5f5f5;
-            color: #333;
-            border: 1px solid #ddd;
-            cursor: pointer;
-        }
-        
-        .timer-mode button.active {
-            background-color: #6a4c93;
-            color: white;
-            border-color: #6a4c93;
-        }
-        
-        .timer-mode button:first-child {
-            border-radius: 5px 0 0 5px;
-        }
-        
-        .timer-mode button:last-child {
-            border-radius: 0 5px 5px 0;
-        }
-        
-        /* Checklist Styles */
-        .checklist {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .checklist-item:last-child {
-            border-bottom: none;
-        }
-        
-        .checklist-item input[type="checkbox"] {
-            margin-right: 10px;
-        }
-        
-        .checklist-item label {
-            flex: 1;
-            cursor: pointer;
-        }
-        
-        .checklist-item.completed label {
-            text-decoration: line-through;
-            color: #999;
-        }
-        
-        .checklist-item button {
-            background: none;
+        .timer-controls button, .tool-card button {
+            margin: 4px 4px;
+            padding: 10px 22px;
             border: none;
-            color: #d62828;
+            border-radius: 24px;
+            background: linear-gradient(90deg, #6a4c93 60%, #a084ca 100%);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 0.9rem;
-        }
-        
-        /* Notes Styles */
-        .notes-area {
-            width: 100%;
-            min-height: 150px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: vertical;
-            font-family: inherit;
-            margin-bottom: 10px;
-        }
-        
-        /* Habit Tracker Styles */
-        .habit-tracker {
-            overflow-x: auto;
-        }
-        
-        .habit-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 500px;
-        }
-        
-        .habit-table th, .habit-table td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .habit-table th:first-child, .habit-table td:first-child {
-            text-align: left;
-        }
-        
-        .habit-day {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(106,76,147,0.08);
+            transition: background 0.18s, transform 0.15s;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            gap: 8px;
         }
-        
-        .habit-day.completed {
-            background-color: #38b000;
-            color: white;
+        .timer-controls button:hover, .tool-card button:hover {
+            background: linear-gradient(90deg, #a084ca 0%, #6a4c93 100%);
+            transform: translateY(-2px) scale(1.04);
         }
-        
-        .habit-day:hover {
-            background-color: #f0f0f0;
+        .tool-card input[type="text"], .tool-card textarea {
+            width: 90%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #d1c4e9;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            background: #f8f6fc;
+            color: #333;
+            outline: none;
+            transition: border 0.18s;
         }
-        
-        .habit-day.completed:hover {
-            background-color: #2d9000;
+        .tool-card input[type="text"]:focus, .tool-card textarea:focus {
+            border: 1.5px solid #6a4c93;
         }
-        
-        @media (max-width: 768px) {
+        .tool-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            text-align: left;
+        }
+        .tool-card ul li {
+            padding: 7px 0 7px 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 1rem;
+            color: #444;
+            position: relative;
+        }
+        .tool-card ul li:last-child {
+            border-bottom: none;
+        }
+        .tool-card textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+        @media (max-width: 1100px) {
+            .tools-dashboard {
+                flex-direction: column;
+                align-items: center;
+            }
             .tool-card {
-                flex: 1 1 100%;
+                min-width: 90vw;
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 600px) {
+            .tools-dashboard {
+                gap: 16px;
+            }
+            .tool-card {
+                padding: 18px 8px 16px 8px;
             }
         }
     </style>
@@ -237,159 +143,120 @@
             </div>
             <div class="nav-links">
                 <a href="index.html">Trang chủ</a>
+                <a href="tasks.html">Nhiệm vụ</a>
                 <a href="guide.html">Hướng dẫn</a>
                 <a href="stats.html">Thống kê</a>
                 <a href="tools.html" class="active">Công cụ</a>
                 <a href="info.html">Thông tin</a>
                 <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
-                <a href="login.html" id="login-link">Đăng nhập</a>
-                <a href="register.html" id="register-link">Đăng ký</a>
                 <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
             </div>
         </div>
     </nav>
-    
     <div class="container">
         <header>
             <h1>Công cụ</h1>
             <p>Các công cụ hữu ích giúp bạn hoàn thành nhiệm vụ hiệu quả hơn</p>
         </header>
-
-        <div class="tools-container">
-            <!-- Pomodoro Timer -->
+        <div class="tools-dashboard">
             <div class="tool-card">
-                <div class="tool-header">
-                    <div class="tool-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h2 class="tool-title">Pomodoro Timer</h2>
-                </div>
-                <div class="tool-content">
-                    <p>Sử dụng kỹ thuật Pomodoro để tăng năng suất làm việc với chu kỳ tập trung và nghỉ ngơi.</p>
-                    
+                <div class="tool-icon"><i class="fas fa-clock"></i></div>
+                <div class="tool-title">Pomodoro Timer</div>
+                <div class="tool-desc">Tăng năng suất với chu kỳ tập trung 25 phút và nghỉ ngắn 5 phút.</div>
+                
+                <div id="pomodoro-container" class="pomodoro-container">
                     <div class="timer-mode">
-                        <button class="active" data-mode="focus">Tập trung</button>
-                        <button data-mode="break">Nghỉ ngơi</button>
+                        <button id="work-mode" class="mode-btn active">Làm việc</button>
+                        <button id="break-mode" class="mode-btn">Nghỉ ngơi</button>
                     </div>
                     
-                    <div class="timer-display" id="timer-display">25:00</div>
+                    <div id="timer-display" class="timer-display">25:00</div>
                     
-                    <div class="tool-controls">
-                        <button id="timer-start"><i class="fas fa-play"></i> Bắt đầu</button>
-                        <button id="timer-pause" disabled><i class="fas fa-pause"></i> Tạm dừng</button>
-                        <button id="timer-reset"><i class="fas fa-redo"></i> Đặt lại</button>
+                    <div class="timer-progress">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                    
+                    <div id="timer-status" class="timer-status">Thời gian làm việc</div>
+                    
+                    <div class="timer-controls">
+                        <button id="start-btn" class="timer-btn">
+                            <i class="fas fa-play"></i>
+                            Bắt đầu
+                        </button>
+                        <button id="pause-btn" class="timer-btn" style="display: none;">
+                            <i class="fas fa-pause"></i>
+                            Tạm dừng
+                        </button>
+                        <button id="reset-btn" class="timer-btn">
+                            <i class="fas fa-redo"></i>
+                            Đặt lại
+                        </button>
                     </div>
                 </div>
             </div>
-            
-            <!-- Quick Checklist -->
             <div class="tool-card">
-                <div class="tool-header">
-                    <div class="tool-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <h2 class="tool-title">Danh sách kiểm tra nhanh</h2>
-                </div>
-                <div class="tool-content">
-                    <p>Tạo danh sách kiểm tra nhanh cho các công việc nhỏ cần hoàn thành.</p>
-                    
-                    <div class="tool-controls">
-                        <input type="text" id="checklist-input" placeholder="Thêm mục mới...">
-                        <button id="checklist-add"><i class="fas fa-plus"></i> Thêm</button>
-                    </div>
-                    
-                    <ul class="checklist" id="checklist-items">
-                        <!-- Các mục sẽ được thêm vào đây bằng JavaScript -->
-                    </ul>
+                <div class="tool-icon"><i class="fas fa-list-check"></i></div>
+                <div class="tool-title">Danh sách kiểm tra nhanh</div>
+                <div class="tool-desc">Tạo checklist cho các việc nhỏ cần hoàn thành ngay.</div>
+                
+                <div class="quick-checklist">
+                    <input type="text" 
+                           id="quick-check-input" 
+                           class="checklist-input" 
+                           placeholder="Thêm mục mới...">
+                    <button id="add-check-item" class="timer-btn">
+                        <i class="fas fa-plus"></i>
+                        Thêm
+                    </button>
+                    <ul id="quick-check-list" class="checklist-items"></ul>
                 </div>
             </div>
-            
-            <!-- Quick Notes -->
             <div class="tool-card">
-                <div class="tool-header">
-                    <div class="tool-icon">
-                        <i class="fas fa-sticky-note"></i>
-                    </div>
-                    <h2 class="tool-title">Ghi chú nhanh</h2>
-                </div>
-                <div class="tool-content">
-                    <p>Lưu trữ các ghi chú nhanh và ý tưởng quan trọng.</p>
+                <div class="tool-icon"><i class="fas fa-sticky-note"></i></div>
+                <div class="tool-title">Ghi chú nhanh</div>
+                <div class="tool-desc">Lưu lại ý tưởng, ghi chú quan trọng mọi lúc.</div>
+                
+                <div class="quick-notes">
+                    <textarea id="quick-note" 
+                              class="note-input" 
+                              placeholder="Nhập ghi chú của bạn..."></textarea>
                     
-                    <textarea class="notes-area" id="notes-area" placeholder="Nhập ghi chú của bạn ở đây..."></textarea>
-                    
-                    <div class="tool-controls">
-                        <button id="notes-save"><i class="fas fa-save"></i> Lưu</button>
-                        <button id="notes-clear"><i class="fas fa-trash"></i> Xóa</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Habit Tracker -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <div class="tool-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <h2 class="tool-title">Theo dõi thói quen</h2>
-                </div>
-                <div class="tool-content">
-                    <p>Theo dõi các thói quen hàng ngày của bạn để xây dựng tính kỷ luật.</p>
-                    
-                    <div class="tool-controls">
-                        <input type="text" id="habit-input" placeholder="Thêm thói quen mới...">
-                        <button id="habit-add"><i class="fas fa-plus"></i> Thêm</button>
+                    <div class="note-controls">
+                        <button id="save-note" class="note-btn">
+                            <i class="fas fa-save"></i>
+                            Lưu
+                        </button>
+                        <button id="clear-note" class="note-btn">
+                            <i class="fas fa-trash"></i>
+                            Xóa
+                        </button>
                     </div>
                     
-                    <div class="habit-tracker">
-                        <table class="habit-table" id="habit-table">
-                            <thead>
-                                <tr>
-                                    <th>Thói quen</th>
-                                    <th>T2</th>
-                                    <th>T3</th>
-                                    <th>T4</th>
-                                    <th>T5</th>
-                                    <th>T6</th>
-                                    <th>T7</th>
-                                    <th>CN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
+                    <ul id="note-list" class="note-list"></ul>
                 </div>
             </div>
         </div>
-
         <footer>
-            <p>&copy; 2025 Daily Quest Hub </p>
+            <p>&copy; 2025 Daily Quest Hub</p>
         </footer>
     </div>
-
     <script src="js/auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Kiểm tra trạng thái đăng nhập và cập nhật UI
             const currentUser = window.authManager.getCurrentUser();
             const profileLink = document.getElementById('profile-link');
-            const loginLink = document.getElementById('login-link');
-            const registerLink = document.getElementById('register-link');
             const logoutLink = document.getElementById('logout-link');
             
             if (currentUser) {
                 // Người dùng đã đăng nhập
                 profileLink.style.display = 'inline-block';
                 logoutLink.style.display = 'inline-block';
-                loginLink.style.display = 'none';
-                registerLink.style.display = 'none';
             } else {
                 // Người dùng chưa đăng nhập
                 profileLink.style.display = 'none';
                 logoutLink.style.display = 'none';
-                loginLink.style.display = 'inline-block';
-                registerLink.style.display = 'inline-block';
             }
             
             // Xử lý sự kiện đăng xuất
@@ -411,320 +278,66 @@
             initHabitTracker();
         });
         
-        // Hàm khởi tạo Pomodoro Timer
-        function initPomodoroTimer() {
-            const timerDisplay = document.getElementById('timer-display');
-            const startBtn = document.getElementById('timer-start');
-            const pauseBtn = document.getElementById('timer-pause');
-            const resetBtn = document.getElementById('timer-reset');
-            const modeButtons = document.querySelectorAll('.timer-mode button');
-            
-            let timer;
-            let timeLeft = 25 * 60; // 25 phút mặc định
-            let isRunning = false;
-            let currentMode = 'focus';
-            
-            // Cập nhật hiển thị thời gian
-            function updateDisplay() {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-            
-            // Xử lý khi hết thời gian
-            function timerComplete() {
-                clearInterval(timer);
-                isRunning = false;
-                
-                // Phát âm thanh thông báo
-                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
-                audio.play();
-                
-                // Hiển thị thông báo
-                if (currentMode === 'focus') {
-                    alert('Đã hết thời gian tập trung! Hãy nghỉ ngơi một chút.');
-                    // Chuyển sang chế độ nghỉ ngơi
-                    modeButtons[1].click();
+        // Pomodoro Timer logic
+        let pomodoroTime = 25 * 60;
+        let pomodoroInterval = null;
+        function updatePomodoroDisplay() {
+            const min = String(Math.floor(pomodoroTime / 60)).padStart(2, '0');
+            const sec = String(pomodoroTime % 60).padStart(2, '0');
+            document.getElementById('pomodoro-timer').textContent = `${min}:${sec}`;
+        }
+        function startPomodoro() {
+            if (pomodoroInterval) return;
+            pomodoroInterval = setInterval(() => {
+                if (pomodoroTime > 0) {
+                    pomodoroTime--;
+                    updatePomodoroDisplay();
                 } else {
-                    alert('Đã hết thời gian nghỉ ngơi! Hãy quay lại làm việc.');
-                    // Chuyển sang chế độ tập trung
-                    modeButtons[0].click();
+                    clearInterval(pomodoroInterval);
+                    pomodoroInterval = null;
+                    alert('Hết thời gian!');
                 }
-                
-                startBtn.disabled = false;
-                pauseBtn.disabled = true;
-            }
-            
-            // Xử lý sự kiện bắt đầu
-            startBtn.addEventListener('click', function() {
-                if (!isRunning) {
-                    isRunning = true;
-                    startBtn.disabled = true;
-                    pauseBtn.disabled = false;
-                    
-                    timer = setInterval(function() {
-                        timeLeft--;
-                        updateDisplay();
-                        
-                        if (timeLeft <= 0) {
-                            timerComplete();
-                        }
-                    }, 1000);
-                }
-            });
-            
-            // Xử lý sự kiện tạm dừng
-            pauseBtn.addEventListener('click', function() {
-                if (isRunning) {
-                    clearInterval(timer);
-                    isRunning = false;
-                    startBtn.disabled = false;
-                    pauseBtn.disabled = true;
-                }
-            });
-            
-            // Xử lý sự kiện đặt lại
-            resetBtn.addEventListener('click', function() {
-                clearInterval(timer);
-                isRunning = false;
-                
-                // Đặt lại thời gian dựa trên chế độ hiện tại
-                if (currentMode === 'focus') {
-                    timeLeft = 25 * 60; // 25 phút cho chế độ tập trung
-                } else {
-                    timeLeft = 5 * 60; // 5 phút cho chế độ nghỉ ngơi
-                }
-                
-                updateDisplay();
-                startBtn.disabled = false;
-                pauseBtn.disabled = true;
-            });
-            
-            // Xử lý sự kiện chuyển đổi chế độ
-            modeButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Xóa class active từ tất cả các nút
-                    modeButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Thêm class active cho nút được chọn
-                    this.classList.add('active');
-                    
-                    // Cập nhật chế độ hiện tại
-                    currentMode = this.getAttribute('data-mode');
-                    
-                    // Đặt lại bộ đếm thời gian
-                    clearInterval(timer);
-                    isRunning = false;
-                    
-                    if (currentMode === 'focus') {
-                        timeLeft = 25 * 60; // 25 phút cho chế độ tập trung
-                    } else {
-                        timeLeft = 5 * 60; // 5 phút cho chế độ nghỉ ngơi
-                    }
-                    
-                    updateDisplay();
-                    startBtn.disabled = false;
-                    pauseBtn.disabled = true;
-                });
-            });
-            
-            // Khởi tạo hiển thị
-            updateDisplay();
+            }, 1000);
         }
-        
-        // Hàm khởi tạo Danh sách kiểm tra nhanh
-        function initQuickChecklist() {
-            const checklistInput = document.getElementById('checklist-input');
-            const addButton = document.getElementById('checklist-add');
-            const checklistItems = document.getElementById('checklist-items');
-            
-            // Tải danh sách từ localStorage
-            let checklist = JSON.parse(localStorage.getItem('quick-checklist')) || [];
-            
-            // Hiển thị danh sách
-            function renderChecklist() {
-                checklistItems.innerHTML = '';
-                
-                checklist.forEach((item, index) => {
-                    const li = document.createElement('li');
-                    li.className = 'checklist-item' + (item.completed ? ' completed' : '');
-                    
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.checked = item.completed;
-                    checkbox.addEventListener('change', function() {
-                        toggleItemComplete(index);
-                    });
-                    
-                    const label = document.createElement('label');
-                    label.textContent = item.text;
-                    
-                    const deleteButton = document.createElement('button');
-                    deleteButton.innerHTML = '<i class="fas fa-times"></i>';
-                    deleteButton.addEventListener('click', function() {
-                        removeItem(index);
-                    });
-                    
-                    li.appendChild(checkbox);
-                    li.appendChild(label);
-                    li.appendChild(deleteButton);
-                    
-                    checklistItems.appendChild(li);
-                });
-            }
-            
-            // Thêm mục mới
-            function addItem() {
-                const text = checklistInput.value.trim();
-                
-                if (text) {
-                    checklist.push({
-                        text: text,
-                        completed: false
-                    });
-                    
-                    saveChecklist();
-                    renderChecklist();
-                    checklistInput.value = '';
-                }
-            }
-            
-            // Đánh dấu hoàn thành/chưa hoàn thành
-            function toggleItemComplete(index) {
-                checklist[index].completed = !checklist[index].completed;
-                saveChecklist();
-                renderChecklist();
-            }
-            
-            // Xóa mục
-            function removeItem(index) {
-                checklist.splice(index, 1);
-                saveChecklist();
-                renderChecklist();
-            }
-            
-            // Lưu danh sách vào localStorage
-            function saveChecklist() {
-                localStorage.setItem('quick-checklist', JSON.stringify(checklist));
-            }
-            
-            // Xử lý sự kiện thêm mục
-            addButton.addEventListener('click', addItem);
-            
-            checklistInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    addItem();
-                }
-            });
-            
-            // Hiển thị danh sách ban đầu
-            renderChecklist();
+        function pausePomodoro() {
+            clearInterval(pomodoroInterval);
+            pomodoroInterval = null;
         }
-        
-        // Hàm khởi tạo Ghi chú nhanh
-        function initQuickNotes() {
-            const notesArea = document.getElementById('notes-area');
-            const saveButton = document.getElementById('notes-save');
-            const clearButton = document.getElementById('notes-clear');
-            
-            // Tải ghi chú từ localStorage
-            notesArea.value = localStorage.getItem('quick-notes') || '';
-            
-            // Xử lý sự kiện lưu ghi chú
-            saveButton.addEventListener('click', function() {
-                localStorage.setItem('quick-notes', notesArea.value);
-                alert('Đã lưu ghi chú thành công!');
-            });
-            
-            // Xử lý sự kiện xóa ghi chú
-            clearButton.addEventListener('click', function() {
-                if (confirm('Bạn có chắc chắn muốn xóa tất cả ghi chú?')) {
-                    notesArea.value = '';
-                    localStorage.removeItem('quick-notes');
-                }
-            });
+        function resetPomodoro() {
+            pomodoroTime = 25 * 60;
+            updatePomodoroDisplay();
+            pausePomodoro();
         }
-        
-        // Hàm khởi tạo Theo dõi thói quen
-        function initHabitTracker() {
-            const habitInput = document.getElementById('habit-input');
-            const addButton = document.getElementById('habit-add');
-            const habitTable = document.getElementById('habit-table').querySelector('tbody');
-            
-            // Tải dữ liệu từ localStorage
-            let habits = JSON.parse(localStorage.getItem('habit-tracker')) || [];
-            
-            // Hiển thị bảng theo dõi thói quen
-            function renderHabitTracker() {
-                habitTable.innerHTML = '';
-                
-                habits.forEach((habit, habitIndex) => {
-                    const row = document.createElement('tr');
-                    
-                    // Tên thói quen
-                    const nameCell = document.createElement('td');
-                    nameCell.textContent = habit.name;
-                    row.appendChild(nameCell);
-                    
-                    // Các ngày trong tuần
-                    for (let i = 0; i < 7; i++) {
-                        const dayCell = document.createElement('td');
-                        const dayDiv = document.createElement('div');
-                        dayDiv.className = 'habit-day' + (habit.days[i] ? ' completed' : '');
-                        dayDiv.textContent = '';
-                        
-                        dayDiv.addEventListener('click', function() {
-                            toggleHabitDay(habitIndex, i);
-                        });
-                        
-                        dayCell.appendChild(dayDiv);
-                        row.appendChild(dayCell);
-                    }
-                    
-                    habitTable.appendChild(row);
-                });
-            }
-            
-            // Thêm thói quen mới
-            function addHabit() {
-                const name = habitInput.value.trim();
-                
-                if (name) {
-                    habits.push({
-                        name: name,
-                        days: [false, false, false, false, false, false, false]
-                    });
-                    
-                    saveHabits();
-                    renderHabitTracker();
-                    habitInput.value = '';
-                }
-            }
-            
-            // Đánh dấu hoàn thành/chưa hoàn thành cho một ngày
-            function toggleHabitDay(habitIndex, dayIndex) {
-                habits[habitIndex].days[dayIndex] = !habits[habitIndex].days[dayIndex];
-                saveHabits();
-                renderHabitTracker();
-            }
-            
-            // Lưu dữ liệu vào localStorage
-            function saveHabits() {
-                localStorage.setItem('habit-tracker', JSON.stringify(habits));
-            }
-            
-            // Xử lý sự kiện thêm thói quen
-            addButton.addEventListener('click', addHabit);
-            
-            habitInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    addHabit();
-                }
-            });
-            
-            // Hiển thị bảng ban đầu
-            renderHabitTracker();
+        updatePomodoroDisplay();
+        // Quick Checklist logic
+        function addQuickCheck() {
+            const input = document.getElementById('quick-check-input');
+            const value = input.value.trim();
+            if (!value) return;
+            const ul = document.getElementById('quick-check-list');
+            const li = document.createElement('li');
+            li.textContent = value;
+            ul.appendChild(li);
+            input.value = '';
         }
+        // Quick Note logic
+        function saveQuickNote() {
+            const note = document.getElementById('quick-note').value;
+            localStorage.setItem('quick-note', note);
+            alert('Đã lưu ghi chú!');
+        }
+        function clearQuickNote() {
+            document.getElementById('quick-note').value = '';
+            localStorage.removeItem('quick-note');
+        }
+        // Load note on page load
+        document.getElementById('quick-note').value = localStorage.getItem('quick-note') || '';
     </script>
+    <link rel="stylesheet" href="css/pomodoro.css">
+    <script src="js/pomodoro.js"></script>
+    <link rel="stylesheet" href="css/quick-checklist.css">
+    <script src="js/quick-checklist.js"></script>
+    <link rel="stylesheet" href="css/quick-notes.css">
+    <script src="js/quick-notes.js"></script>
 </body>
 </html>

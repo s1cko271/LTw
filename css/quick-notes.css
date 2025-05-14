@@ -1,0 +1,153 @@
+/* Quick Notes Styles */
+.quick-notes {
+    width: 100%;
+    margin-top: 16px;
+}
+
+.note-input {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px 16px;
+    border: 2px solid #e0d0f7;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: #f8f6fc;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.note-input:focus {
+    outline: none;
+    border-color: #6a4c93;
+    box-shadow: 0 0 0 3px rgba(106,76,147,0.1);
+}
+
+.note-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.note-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #6a4c93 0%, #a084ca 100%);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.note-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(106,76,147,0.2);
+}
+
+.note-btn:active {
+    transform: translateY(0);
+}
+
+.note-btn i {
+    font-size: 1.1rem;
+}
+
+.note-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.note-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(106,76,147,0.05);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.note-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(106,76,147,0.1);
+}
+
+.note-content {
+    font-size: 1rem;
+    color: #2c3e50;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.note-date {
+    font-size: 0.85rem;
+    color: #95a5a6;
+    margin-top: 8px;
+}
+
+.note-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.note-item:hover .note-actions {
+    opacity: 1;
+}
+
+.note-action-btn {
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-note {
+    color: #3498db;
+}
+
+.edit-note:hover {
+    background: rgba(52,152,219,0.1);
+}
+
+.delete-note {
+    color: #e74c3c;
+}
+
+.delete-note:hover {
+    background: rgba(231,76,60,0.1);
+}
+
+/* Scrollbar styling */
+.note-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.note-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.note-list::-webkit-scrollbar-thumb {
+    background: #c5b3e6;
+    border-radius: 4px;
+}
+
+.note-list::-webkit-scrollbar-thumb:hover {
+    background: #6a4c93;
+} 

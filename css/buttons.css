@@ -1,0 +1,79 @@
+/* Button Styles */
+.btn {
+    margin: 4px 4px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 24px;
+    background: linear-gradient(90deg, #6a4c93 60%, #a084ca 100%);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(106,76,147,0.08);
+    transition: background 0.18s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #a084ca 0%, #6a4c93 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+
+/* Button variants */
+.btn-primary {
+    background: linear-gradient(90deg, #6a4c93 60%, #a084ca 100%);
+}
+
+.btn-secondary {
+    background: linear-gradient(90deg, #4a90e2 60%, #7fb3e6 100%);
+}
+
+.btn-success {
+    background: linear-gradient(90deg, #2ecc71 60%, #82e0aa 100%);
+}
+
+.btn-danger {
+    background: linear-gradient(90deg, #e74c3c 60%, #f1948a 100%);
+}
+
+.btn-warning {
+    background: linear-gradient(90deg, #f1c40f 60%, #f9e79f 100%);
+}
+
+/* Button sizes */
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+}
+
+.btn-lg {
+    padding: 12px 28px;
+    font-size: 1.125rem;
+}
+
+/* Button with icon */
+.btn i {
+    font-size: 1rem;
+}
+
+/* Disabled state */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Button group */
+.btn-group {
+    display: inline-flex;
+    gap: 8px;
+}
+
+/* Full width button */
+.btn-block {
+    display: block;
+    width: 100%;
+    text-align: center;
+} 

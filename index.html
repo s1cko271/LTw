@@ -6,7 +6,128 @@
     <title>Daily Quest Hub</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/home-buttons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f3e9ff 0%, #f8fafc 100%);
+        }
+        .hero {
+            text-align: center;
+            padding: 64px 16px 32px 16px;
+            background: linear-gradient(120deg, #a084ca 0%, #6a4c93 100%);
+            color: #fff;
+            border-radius: 0 0 36px 36px;
+            box-shadow: 0 8px 32px rgba(106,76,147,0.10);
+        }
+        .hero-logo {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 2px 8px #e0d0f7);
+        }
+        .hero-title {
+            font-size: 2.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .hero-desc {
+            font-size: 1.25rem;
+            margin-bottom: 32px;
+            color: #f8f6fc;
+        }
+        .hero-btn {
+            font-size: 1.25rem;
+            padding: 18px 48px;
+            margin-top: 12px;
+        }
+        .features-section {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 48px 0 32px 0;
+        }
+        .feature-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(106,76,147,0.08), 0 1.5px 4px rgba(106,76,147,0.04);
+            padding: 32px 28px 24px 28px;
+            text-align: center;
+            min-width: 220px;
+            max-width: 270px;
+            flex: 1 1 220px;
+            margin-bottom: 18px;
+        }
+        .feature-icon {
+            font-size: 2.2rem;
+            color: #6a4c93;
+            margin-bottom: 10px;
+        }
+        .feature-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #2c3e50;
+        }
+        .feature-desc {
+            color: #7b6b8a;
+            font-size: 1rem;
+        }
+        .quick-guide-section {
+            max-width: 700px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(106,76,147,0.07);
+            padding: 32px 24px;
+        }
+        .quick-guide-section h2 {
+            color: #6a4c93;
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+        }
+        .quick-guide-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .quick-guide-step {
+            flex: 1 1 220px;
+            background: #f8f6fc;
+            border-radius: 12px;
+            padding: 18px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(106,76,147,0.04);
+        }
+        .quick-guide-icon {
+            font-size: 1.5rem;
+            color: #a084ca;
+            margin-top: 2px;
+        }
+        .quick-guide-text {
+            font-size: 1.05rem;
+            color: #444;
+        }
+        @media (max-width: 900px) {
+            .features-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature-card {
+                min-width: 90vw;
+                max-width: 98vw;
+            }
+            .quick-guide-list {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -16,89 +137,70 @@
             </div>
             <div class="nav-links">
                 <a href="index.html" class="active">Trang chủ</a>
+                <a href="tasks.html">Nhiệm vụ</a>
                 <a href="guide.html">Hướng dẫn</a>
                 <a href="stats.html">Thống kê</a>
                 <a href="tools.html">Công cụ</a>
                 <a href="info.html">Thông tin</a>
                 <a href="profile.html" id="profile-link" style="display: none;">Hồ sơ</a>
-                <a href="login.html" id="login-link">Đăng nhập</a>
-                <a href="register.html" id="register-link">Đăng ký</a>
                 <a href="#" id="logout-link" style="display: none;">Đăng xuất</a>
             </div>
         </div>
     </nav>
-    
-    <div class="container">
-        <header>
-            <h1>Daily Quest Hub</h1>
-            <p>Biến công việc hàng ngày thành nhiệm vụ thú vị!</p>
-        </header>
-
-        <main>
-            <section class="stats-section">
-                <div class="stat-card">
-                    <i class="fas fa-tasks"></i>
-                    <h3>Nhiệm vụ đang chờ</h3>
-                    <p id="pending-count">0</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Nhiệm vụ hoàn thành</h3>
-                    <p id="completed-count">0</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-star"></i>
-                    <h3>Điểm kinh nghiệm</h3>
-                    <p id="xp-count">0</p>
-                </div>
-            </section>
-
-            <section class="quest-form-section">
-                <h2>Thêm nhiệm vụ mới</h2>
-                <form id="quest-form">
-                    <div class="form-group">
-                        <label for="quest-title">Tên nhiệm vụ:</label>
-                        <input type="text" id="quest-title" required placeholder="Nhập tên nhiệm vụ...">
-                    </div>
-                    <div class="form-group">
-                        <label for="quest-description">Mô tả:</label>
-                        <textarea id="quest-description" placeholder="Mô tả chi tiết..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="quest-difficulty">Độ khó:</label>
-                        <select id="quest-difficulty">
-                            <option value="easy">Dễ (10 XP)</option>
-                            <option value="medium">Trung bình (20 XP)</option>
-                            <option value="hard">Khó (30 XP)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="quest-deadline">Hạn chót:</label>
-                        <input type="date" id="quest-deadline">
-                    </div>
-                    <button type="submit" class="btn-add">Thêm nhiệm vụ</button>
-                </form>
-            </section>
-
-            <section class="quests-section">
-                <h2>Danh sách nhiệm vụ</h2>
-                <div class="quest-filters">
-                    <button class="filter-btn active" data-filter="all">Tất cả</button>
-                    <button class="filter-btn" data-filter="pending">Đang chờ</button>
-                    <button class="filter-btn" data-filter="completed">Hoàn thành</button>
-                </div>
-                <div id="quests-container">
-                    <!-- Quests will be added here dynamically -->
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>&copy; 2025 Daily Quest Hub </p>
-        </footer>
+    <div class="hero">
+        <div class="hero-logo"><i class="fas fa-scroll"></i></div>
+        <div class="hero-title">Daily Quest Hub</div>
+        <div class="hero-desc">Biến công việc hàng ngày thành nhiệm vụ thú vị!<br>Quản lý, theo dõi và hoàn thành mục tiêu mỗi ngày một cách hiệu quả.</div>
+        <a href="tasks.html" class="home-btn hero-btn">
+            <i class="fas fa-rocket"></i> Quản lý nhiệm vụ
+        </a>
     </div>
-
-    <script src="js/app.js"></script>
+    <section class="features-section">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-list-check"></i></div>
+            <div class="feature-title">Quản lý nhiệm vụ</div>
+            <div class="feature-desc">Tạo, theo dõi, hoàn thành nhiệm vụ mỗi ngày. Nhận XP khi hoàn thành.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-star"></i></div>
+            <div class="feature-title">Tích lũy kinh nghiệm</div>
+            <div class="feature-desc">Game hóa công việc, nhận điểm thưởng, tăng động lực cá nhân.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-toolbox"></i></div>
+            <div class="feature-title">Công cụ hỗ trợ</div>
+            <div class="feature-desc">Pomodoro, checklist, ghi chú nhanh, theo dõi thói quen và nhiều hơn nữa.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="feature-title">Thống kê tiến độ</div>
+            <div class="feature-desc">Xem báo cáo, biểu đồ, lịch sử hoàn thành nhiệm vụ.</div>
+        </div>
+    </section>
+    <section class="quick-guide-section">
+        <h2>Hướng dẫn sử dụng nhanh</h2>
+        <ul class="quick-guide-list">
+            <li class="quick-guide-step">
+                <span class="quick-guide-icon"><i class="fas fa-rocket"></i></span>
+                <span class="quick-guide-text">Nhấn <b>Quản lý nhiệm vụ</b> để bắt đầu sử dụng.</span>
+            </li>
+            <li class="quick-guide-step">
+                <span class="quick-guide-icon"><i class="fas fa-plus-circle"></i></span>
+                <span class="quick-guide-text">Thêm nhiệm vụ mới, đặt mô tả, độ khó, hạn chót.</span>
+            </li>
+            <li class="quick-guide-step">
+                <span class="quick-guide-icon"><i class="fas fa-check-circle"></i></span>
+                <span class="quick-guide-text">Đánh dấu hoàn thành để nhận XP và theo dõi tiến độ.</span>
+            </li>
+            <li class="quick-guide-step">
+                <span class="quick-guide-icon"><i class="fas fa-toolbox"></i></span>
+                <span class="quick-guide-text">Khám phá thêm các công cụ hỗ trợ ở mục <b>Công cụ</b>.</span>
+            </li>
+        </ul>
+    </section>
+    <footer style="margin-top:48px; text-align:center; color:#aaa;">
+        <p>&copy; 2025 Daily Quest Hub</p>
+    </footer>
     <script src="js/auth.js"></script>
 </body>
 </html>
